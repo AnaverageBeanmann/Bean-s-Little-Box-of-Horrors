@@ -1,0 +1,5 @@
+"VertexLitGeneric"
+{
+	"$basetexture" "models/vj_blboh/preacher/inqui_mini_sheet"
+	"$halflambert" 1
+}

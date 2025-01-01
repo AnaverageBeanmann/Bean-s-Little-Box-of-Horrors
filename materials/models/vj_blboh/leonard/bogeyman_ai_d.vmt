@@ -1,0 +1,18 @@
+"vertexlitgeneric"
+{
+	"$basetexture" "models\vj_blboh/leonard/bogeyman_ai_d"
+	"$bumpmap" "models\vj_blboh/leonard/bogeyman_ai_n"
+	"$selfillum" "1"
+	"$selfillummask" "models/vj_blboh/leonard/bogeyman_ai_d_glow"
+
+$halflambert 0
+$phong 1
+$diffuseexp 1
+
+$phongfresnelranges "[.17 .5 1]"
+$phongboost 2
+$phongexponent 54
+$seamless_detail 1
+$seamless_scale ".005"
+
+}

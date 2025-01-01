@@ -1,0 +1,16 @@
+"vertexlitgeneric"
+{
+	"$basetexture" "models\vj_blboh/leonard/hammer_bogeyman_d"
+	"$bumpmap" "models\vj_blboh/leonard/hammer_bogeyman_n"
+
+$halflambert 0
+$phong 1
+$diffuseexp 1
+
+$phongfresnelranges "[.7 .7 1]"
+$phongboost 2
+$phongexponent 54
+$seamless_detail 1
+$seamless_scale ".005"
+
+}

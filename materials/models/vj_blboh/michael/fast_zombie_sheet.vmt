@@ -1,0 +1,17 @@
+"VertexLitGeneric"
+{
+	"$baseTexture" "models/vj_blboh/michael/fast_zombie_sheet"
+	"$alphatest" 1
+	"$bumpmap" "models/vj_blboh/michael/fast_zombie_sheet_normal"
+	"$selfillum" "1"
+	"$selfillummask" "models/vj_blboh/michael/fast_zombie_sheet_glow"
+	"$surfaceprop" "flesh"
+	"$model" "1"
+	"$halflambert" "1"
+	"$phong" "1"
+	"$phongboost" "5"
+	"$phongexponent" 25
+	//"$phongexponenttexture" "Models/zombie_fast/fast_zombie_phong"
+	//"$phongalbedotint" "1"										
+	"$phongfresnelranges"	"[.2 .6 1]"
+}
