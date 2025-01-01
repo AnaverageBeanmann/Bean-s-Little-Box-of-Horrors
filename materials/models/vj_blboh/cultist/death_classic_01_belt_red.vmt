@@ -1,0 +1,11 @@
+"VertexLitGeneric"
+{
+	"$basetexture" "models/vj_blboh/cultist/death_classic_01_belt_color"
+	"$bumpmap" "models/vj_blboh/cultist/death_01_belt_alt_normal"
+	"$halflambert" 1
+  	  "$alphatest" 1
+  	  "$model" 1
+   	 "$nocull" 1
+
+	"$color2" "{96 32 32}" 
+}

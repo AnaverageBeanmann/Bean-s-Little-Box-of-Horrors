@@ -1,0 +1,9 @@
+"VertexLitGeneric"
+{
+	"$basetexture" "models/vj_blboh/cultist/death_01_skull_trinket"
+	"$bumpmap" "models/vj_blboh/cultist/death_01_skull_trinket_normal"
+	//"$envmap" "env_cubemap"
+	"$envmapcontrast" 1
+	"$envmapsaturation" 1
+	"$envmaptint" "[.5 .5 .5]"
+}

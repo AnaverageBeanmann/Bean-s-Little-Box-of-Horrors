@@ -1,0 +1,9 @@
+"VertexLitGeneric"
+{
+	"$basetexture" "models/vj_blboh/cultist/death_classic_01_robes"
+	"$bumpmap" "models/vj_blboh/cultist/death_01_robes_normal"
+	"$halflambert" 1
+  	  "$alphatest" 1
+  	  "$model" 1
+   	 "$nocull" 1
+}

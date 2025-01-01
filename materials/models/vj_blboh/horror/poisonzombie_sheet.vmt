@@ -1,0 +1,14 @@
+"VertexLitGeneric"
+{
+	"$baseTexture" "Models/vj_blboh/horror/PoisonZombie_sheet"
+//	"$envmap" "env_cubemap"
+	"$bumpmap" "Models/vj_blboh/horror/PoisonZombie_sheet_normal"
+	"$selfillum" "1"
+	"$selfillummask" "models/vj_blboh/horror/poisonzombie_sheet_glow"
+	"$model" "1"
+	"$phong" "1"
+	"$phongboost" "0"
+//	"$halflambert" "1"
+	"$phongexponenttexture" "Models/vj_blboh/horror/poisonZombie_phong"			
+	"$phongfresnelranges"	"[0 .5  1]"
+}
