@@ -1,0 +1,6 @@
+"VertexLitGeneric"
+{
+	"$baseTexture" "models/vj_blboh/wretch/ceye024"
+	 "$selfillum" 1
+	"$surfaceprop" "flesh"
+}

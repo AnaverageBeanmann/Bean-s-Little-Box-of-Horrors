@@ -1,0 +1,10 @@
+"VertexLitGeneric"
+{
+	"$baseTexture" "models/vj_blboh/wretch/chaire"
+//	"$envmap" "env_cubemap"
+//	"$normalmapalphaenvmapmask" 1
+//	"$envmapmask" "models/vj_blboh/wretch/fast_zombie_sheet"
+//	"$bumpmap" "Models/vj_blboh/wretch/fast_zombie_sheet_normal"
+	"$alphatest" 1
+	"$surfaceprop" "flesh"
+}

@@ -1,0 +1,6 @@
+"VertexLitGeneric"
+{
+	"$baseTexture" "models/vj_blboh/wretch/Zombie_Classic_sheet2"
+	"$bumpmap" "Models/vj_blboh/wretch/zombie_classic_sheet_normal2"
+
+}
