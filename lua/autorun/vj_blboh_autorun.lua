@@ -6,6 +6,7 @@ if VJExists == true then
 	include('autorun/vj_controls.lua')
 
 	local vCat = "Bean's Little Box of Horrors"
+	-- VJ.AddCategoryInfo(vCat, {Icon = "icons/vj_singularity.png"})
 
 	-- Original Guys
 	VJ.AddNPC("Wretch","npc_vj_blboh_wretch",vCat)
@@ -29,6 +30,92 @@ if VJExists == true then
 	-- VJ.AddNPC("Goreshile Spawn","npc_vj_blboh_goreshile_spawn",vCat) -- Goreshile minion
 	-- VJ.AddNPC("Goreshile","npc_vj_blboh_goreshile",vCat) -- Spooky take on the ZS Giga Gore Child
 	-- VJ.AddNPC("Ball of Dread","npc_vj_blboh_ballofdread",vCat) -- Black ball of fog that floats around; you can hear screams from inside it
+
+	-- Thrall - Appearance based on the Thralls from FAITH
+	-- Flock - Ghost Dog/Buddy from gm_stable
+	-- Tortured - Servant Suiter
+	-- Crunatus - Cultist model, but with a grey robe
+	-- Secretary - Suited skeleton with glowing eyes
+	-- Semper - player.mdl
+	-- Tarako - https://www.youtube.com/watch?v=1guJsD-au7I
+	-- Goreshiles - Shadowy Giga Gore Child
+	-- Ball of Dread - Black void of fog
+
+	-- May or may not add
+	-- VJ.AddNPC("Withering Bones","npc_vj_blboh_witheringbones",vCat) -- [] Wither Skeletons be like
+	-- VJ.AddNPC("The Creature","npc_vj_blboh_creature",vCat) -- [] Runs away if you look at it?
+
+
+	/*
+	Model for Erectus, The Shepherd, and The Chupacabra are from Half-Life 2
+	Model for Wretch and Preacher are from from Get a Life
+	Model for Cultist is from Death: A Grim Bundle
+	Cultist Knife model from Escape from Tarkov
+	Model for Horror is from here *link to poison zombie playermodel*
+	Model for Stalker is from Half-Life 2 Beta
+
+	Base texture for The Chupacabra taken from this addon *link to the rake model*
+
+	Common Infected Animations for Cultist taken from Left 4 Dead Common Infected NPCs
+	Animations for Erectus taken from Cry of Fear
+	Horror animations provided by Warkin Iskander Volselli
+
+	Various NPCs use sounds from Half-Life 2
+	Sounds for Cultist, The Shepherd, and The Chupacabra taken from FAITH
+	Sounds for Horror and Erectus taken from Ghouls Forest 3
+	Sounds for Wretch taken from Sabiru
+
+	The Follower's model and some sounds are from Silent Hill: Downpour; other Follower sounds are from Dying Light and the Resident Evil 2 Remake
+
+	Code for Blackscary in Crack-Life Resurgence referenced for the Stalker's mechanic
+	*/
+
+	VJ.AddConVar("vj_blboh_michael_killable", 1, {FCVAR_ARCHIVE})
+	VJ.AddConVar("vj_blboh_michael_killable_timesneedtofendoff", 2, {FCVAR_ARCHIVE})
+
+	if CLIENT then
+		hook.Add("PopulateToolMenu", "VJ_ADDTOMENU_BLBOH", function()
+			spawnmenu.AddToolMenuOption("DrVrej", "SNPC Configures", "Bean's Little Box of Horrors", "Bean's Little Box of Horrors", "", "", function(Panel)
+				if !game.SinglePlayer() && !LocalPlayer():IsAdmin() then
+					Panel:AddControl("Label", {Text = "#vjbase.menu.general.admin.not"})
+					Panel:AddControl( "Label", {Text = "#vjbase.menu.general.admin.only"})
+					return
+				end
+				Panel:AddControl("Button", {Text = "#vjbase.menu.general.reset.everything", Command = "vj_blboh_michael_killable 1\vj_blboh_michael_killable_timesneedtofendoff"})
+				Panel:AddControl( "Label", {Text = "Please respawn any existing NPCs after changing stuff in here!"})
+
+				-- local vj_blboh_reset = {Options = {}, CVars = {}, Label = "Gamemode-Accurate Preset:", MenuButton = "0"}
+					-- vj_blboh_reset.Options["#vjbase.menugeneral.default"] = {
+					-- vj_slashco_slashers_killable = "0",
+				-- }
+				-- Panel:AddControl("ComboBox", vj_blboh_reset)
+
+				Panel:AddControl("Checkbox", {Label = "The Chupacabra is killable?", Command = "vj_singularity_mutant_canbecrippled"})
+				Panel:AddControl("Slider", {Label = "Total Chupacabra fend-offs:", Command = "vj_singularity_mutant_canbecrippled", Min = 1, Max = 10})
+				Panel:ControlHelp("This is the total ammount of times The Chupacabra has to be fended off before it's killable.")
+				Panel:ControlHelp("If the ConVar above this one is disabled, then this does nothing.")
+			end)
+		end)
+	end
+
+	/*
+	examples
+	
+	Panel:AddControl("Checkbox", {Label = "", Command = ""})
+	
+	Panel:AddControl("Slider", {Label = "", Command = "", Min = 1, Max = 10000})
+
+	local example_combobox = {Options = {}, CVars = {}, Label = "", MenuButton = "0"}
+	example_combobox.Options["Default"] = {convar_name = 1}
+	example_combobox.Options["Option 1"] = {convar_name = 2}
+	example_combobox.Options["Option 2"] = {convar_name = 3}
+	Panel:AddControl("ComboBox", example_combobox)
+	
+	Panel:ControlHelp("")
+	
+	Panel:AddControl( "Label", {Text = "Note: Only admins can change these settings!"})
+	*/
+
 
 -- !!!!!! DON'T TOUCH ANYTHING BELOW THIS !!!!!! -------------------------------------------------------------------------------------------------------------------------
 	AddCSLuaFile()
