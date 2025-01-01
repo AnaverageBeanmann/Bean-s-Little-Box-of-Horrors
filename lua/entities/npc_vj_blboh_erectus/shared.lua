@@ -1,0 +1,8 @@
+ENT.Base 			= "npc_vj_creature_base"
+ENT.Type 			= "ai"
+ENT.PrintName 		= "Erectus"
+ENT.Author 			= "An average Beanmann"
+ENT.Contact 		= ""
+ENT.Purpose 		= "big b0ne(r)."
+ENT.Instructions 	= "rattle me bones"
+ENT.Category		= "Bean's Little Box of Horrors"

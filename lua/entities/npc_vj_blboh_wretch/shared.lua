@@ -1,0 +1,8 @@
+ENT.Base 			= "npc_vj_creature_base"
+ENT.Type 			= "ai"
+ENT.PrintName 		= "Wretch"
+ENT.Author 			= "An average Beanmann"
+ENT.Contact 		= ""
+ENT.Purpose 		= "FAILURE."
+ENT.Instructions 	= "MORTEM."
+ENT.Category		= "Bean's Little Box of Horrors"

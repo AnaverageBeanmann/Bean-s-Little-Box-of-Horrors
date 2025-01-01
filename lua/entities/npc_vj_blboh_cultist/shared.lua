@@ -1,0 +1,8 @@
+ENT.Base 			= "npc_vj_creature_base"
+ENT.Type 			= "ai"
+ENT.PrintName 		= "Cultist"
+ENT.Author 			= "An average Beanmann"
+ENT.Contact 		= ""
+ENT.Purpose 		= "SWEAR BY HIS THRONE."
+ENT.Instructions 	= "BURN IN HELL."
+ENT.Category		= "Bean's Little Box of Horrors"

@@ -1,0 +1,8 @@
+ENT.Base 			= "npc_vj_human_base"
+ENT.Type 			= "ai"
+ENT.PrintName 		= "The Shepherd"
+ENT.Author 			= "An average Beanmann"
+ENT.Contact 		= "http://steamcommunity.com/groups/vrejgaming"
+ENT.Purpose 		= "Tends to his flock."
+ENT.Instructions 	= "A gun with one bullet."
+ENT.Category		= "Bean's Half-Life Coop Infected Expansions"

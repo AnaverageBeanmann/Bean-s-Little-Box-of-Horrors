@@ -1,0 +1,8 @@
+ENT.Base 			= "npc_vj_creature_base"
+ENT.Type 			= "ai"
+ENT.PrintName 		= "Stalker"
+ENT.Author 			= "An average Beanmann"
+ENT.Contact 		= "http://steamcommunity.com/groups/vrejgaming"
+ENT.Purpose 		= "Something Wicked This Way Comes."
+ENT.Instructions 	= "BURN IN HELL."
+ENT.Category		= "Bean's Half-Life Coop Infected Expansions"
