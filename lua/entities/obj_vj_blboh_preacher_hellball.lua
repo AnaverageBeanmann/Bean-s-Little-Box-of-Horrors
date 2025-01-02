@@ -42,7 +42,8 @@ ENT.SoundTbl_Startup = {"weapons/iceaxe/iceaxe_swing1.wav"}
 	-- "weapons/knife/knife_hit3.wav",
 	-- "weapons/knife/knife_hit4.wav"
 -- }
-ENT.SoundTbl_Startup = "ambient/fire/mtov_flame2.wav"
+-- ENT.SoundTbl_Startup = "ambient/fire/mtov_flame2.wav"
+ENT.SoundTbl_Startup = "vj_blboh/preacher/fireball.ogg"
 ENT.SoundTbl_Idle = "ambient/fire/firebig.wav"
 -- ENT.SoundTbl_OnCollide = false
 ENT.SoundTbl_OnRemove = "ambient/fire/gascan_ignite1.wav"

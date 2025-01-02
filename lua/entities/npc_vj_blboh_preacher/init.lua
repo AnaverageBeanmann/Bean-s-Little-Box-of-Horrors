@@ -2,14 +2,13 @@ AddCSLuaFile("shared.lua")
 include('shared.lua')
 --------------------
 ENT.Model = {"models/vj_blboh/preacher.mdl"}
--- ENT.StartHealth = 200
 ENT.StartHealth = 1000
--- ENT.HullType = HULL_HUMAN
-
+ENT.SightAngle = 360
+--------------------
 ENT.VJ_NPC_Class = {"CLASS_DEMON"}
-
+--------------------
 ENT.BloodColor = "Red"
-
+-- ENT.BloodColor = VJ.BLOOD_COLOR_RED
 --------------------
 ENT.HasMeleeAttack = true
 -- ENT.MeleeAttackDamage = 10 -- change this?
@@ -23,57 +22,39 @@ ENT.TimeUntilMeleeAttackDamage = 0
 ENT.NextMeleeAttackTime = 1
 ENT.DisableMeleeAttackAnimation = true
 --------------------
-
 ENT.HasRangeAttack = true
--- ENT.RangeAttackEntityToSpawn = "obj_vj_tank_shell"
 ENT.RangeAttackEntityToSpawn = "obj_vj_blboh_preacher_hellball"
-
-ENT.AnimTbl_RangeAttack = ACT_RANGE_ATTACK1
-ENT.RangeAttackAnimationDelay = 0 -- It will wait certain amount of time before playing the animation
-ENT.RangeAttackAnimationFaceEnemy = true -- Should it face the enemy while playing the range attack animation?
-ENT.RangeAttackAnimationDecreaseLengthAmount = 0 -- This will decrease the time until starts chasing again. Use it to fix animation pauses until it chases the enemy.
-ENT.RangeAttackAnimationStopMovement = true -- Should it stop moving when performing a range attack?
-	-- ====== Distance ====== --
-ENT.RangeDistance = 2000 -- How far can it range attack?
-ENT.RangeToMeleeDistance = 0 -- How close does it have to be until it uses melee?
-ENT.RangeAttackAngleRadius = 100 -- What is the attack angle radius? | 100 = In front of the NPC | 180 = All around the NPC
-	-- ====== Timer ====== --
-	-- Set this to false to make the attack event-based:
-ENT.TimeUntilRangeAttackProjectileRelease = 0.15 -- How much time until the projectile code is ran?
-ENT.NextRangeAttackTime = 1 -- How much time until it can use a range attack?
-ENT.NextRangeAttackTime_DoRand = 5 -- False = Don't use random time | Number = Picks a random number between the regular timer and this timer
-	-- To let the base automatically detect the attack duration, set this to false:
-ENT.NextAnyAttackTime_Range = false -- How much time until it can use any attack again? | Counted in Seconds
-ENT.NextAnyAttackTime_Range_DoRand = false -- False = Don't use random time | Number = Picks a random number between the regular timer and this timer
-ENT.RangeAttackReps = 1 -- How many times does it run the projectile code?
-ENT.RangeAttackExtraTimers = nil -- Extra range attack timers, EX: {1, 1.4} | it will run the projectile code after the given amount of seconds
+ENT.RangeAttackAnimationStopMovement = false
+ENT.RangeDistance = 2000
+ENT.RangeToMeleeDistance = 0
+ENT.RangeAttackAngleRadius = 180
+ENT.TimeUntilRangeAttackProjectileRelease = 0.15
+ENT.NextRangeAttackTime = 1
+ENT.NextRangeAttackTime_DoRand = 5
 ENT.DisableRangeAttackAnimation = true -- if true, it will disable the animation code
-
+--------------------
 ENT.HasLeapAttack = true
 ENT.LeapDistance = 1000
 ENT.LeapToMeleeDistance = 0
+ENT.LeapAttackAngleRadius = 180
 ENT.TimeUntilLeapAttackDamage = false
--- ENT.TimeUntilLeapAttackVelocity = false
 ENT.NextLeapAttackTime = 7
 ENT.NextLeapAttackTime_DoRand = 9
 ENT.DisableLeapAttackAnimation = true
--- ENT.DisableDefaultLeapAttackDamagecode = true
-
-
-ENT.BeforeRangeAttackSoundLevel = 90
+--------------------
 ENT.DisableFootStepSoundTimer = true
-
-ENT.GeneralSoundPitch1 = 100
-ENT.GeneralSoundPitch2 = 100
-ENT.IdleSoundPitch = VJ_Set(60, 50)
-ENT.AlertSoundPitch = VJ_Set(60, 50)
-ENT.DeathSoundPitch  = VJ_Set(30, 40)
-ENT.BreathSoundLevel = 75
-ENT.NextSoundTime_Breath = VJ_Set(2,2)
-
+ENT.HasBreathSound = false
 ENT.SoundTbl_FootStep = {"npc/fast_zombie/foot1.wav","npc/fast_zombie/foot2.wav","npc/fast_zombie/foot3.wav","npc/fast_zombie/foot4.wav"}
 ENT.SoundTbl_Breath = {"ambient/atmosphere/noise2.wav"}
-ENT.SoundTbl_Alert = {"npc/zombie_poison/pz_call1.wav"}
+ENT.SoundTbl_Alert = {
+	-- "npc/antlion_guard/angry1.wav",
+	-- "npc/antlion_guard/angry2.wav",
+	-- "npc/antlion_guard/angry3.wav"
+	-- "npc/antlion_guard/frustrated_growl1.wav",
+	-- "npc/antlion_guard/frustrated_growl2.wav",
+	-- "npc/antlion_guard/frustrated_growl3.wav",
+	"npc/zombie_poison/pz_call1.wav"
+}
 ENT.SoundTbl_Idle = {
 	"ambient/creatures/town_child_scream1.wav",
 	"ambient/creatures/town_moan1.wav",
@@ -84,6 +65,20 @@ ENT.SoundTbl_Idle = {
 	"ambient/creatures/town_scared_sob2.wav",
 	"ambient/creatures/town_zombie_call1.wav",
 	"ambient/voices/playground_memory.wav",
+	"ambient/atmosphere/cave_hit1.wav",
+	"ambient/atmosphere/cave_hit2.wav",
+	"ambient/atmosphere/cave_hit3.wav",
+	"ambient/atmosphere/cave_hit4.wav",
+	"ambient/atmosphere/cave_hit5.wav",
+	"ambient/atmosphere/cave_hit6.wav",
+	"ambient/atmosphere/city_truckpass1.wav",
+	"ambient/atmosphere/hole_hit1.wav",
+	"ambient/atmosphere/hole_hit2.wav",
+	"ambient/atmosphere/hole_hit3.wav",
+	"ambient/atmosphere/hole_hit4.wav",
+	"ambient/atmosphere/hole_hit5.wav",
+	"ambient/atmosphere/metallic1.wav",
+	"ambient/atmosphere/metallic2.wav",
 	"ambient/levels/citadel/datatransfmalevx01.wav",
 	"ambient/levels/citadel/datatransfmalevx02.wav",
 	"ambient/levels/citadel/datatransgarbledfmalevx01.wav",
@@ -99,6 +94,15 @@ ENT.SoundTbl_Idle = {
 	"ambient/levels/citadel/strange_talk8.wav",
 	"ambient/levels/citadel/strange_talk9.wav",
 	"ambient/levels/citadel/strange_talk10.wav",
+	"ambient/materials/creaking.wav",
+	"ambient/materials/icegrind1.wav",
+	"ambient/materials/metal4.wav",
+	"ambient/materials/metal5.wav",
+	"ambient/materials/metal9.wav",
+	"ambient/materials/shipgroan1.wav",
+	"ambient/materials/shipgroan2.wav",
+	"ambient/materials/shipgroan3.wav",
+	"ambient/materials/shipgroan4.wav",
 	-- "vo/citadel/br_youneedme.wav",
 	-- "vo/citadel/al_bitofit.wav",
 	-- "vo/citadel/al_thatshim.wav",
@@ -148,10 +152,27 @@ ENT.SoundTbl_Idle = {
 	-- "vo/npc/male01/heretohelp01.wav",
 	-- "vo/npc/male01/heretohelp02.wav",
 }
-ENT.SoundTbl_BeforeRangeAttack = "vj_blboh/preacher/fireball.ogg"
+-- ENT.SoundTbl_BeforeRangeAttack = "vj_blboh/preacher/fireball.ogg"
+-- ENT.SoundTbl_Pain = {
+	-- "npc/antlion_guard/frustrated_growl1.wav",
+	-- "npc/antlion_guard/frustrated_growl2.wav",
+	-- "npc/antlion_guard/frustrated_growl3.wav",
+-- }
 ENT.SoundTbl_Death = {
 	"npc/stalker/go_alert2.wav"
 }
+ENT.NextSoundTime_Breath = VJ.SET(2,2)
+ENT.NextSoundTime_Idle = VJ.SET(0, 5)
+ENT.GeneralSoundPitch1 = 100
+ENT.GeneralSoundPitch2 = 100
+ENT.BreathSoundLevel = 75
+ENT.IdleSoundLevel = 80
+ENT.BeforeRangeAttackSoundLevel = 90
+ENT.IdleSoundPitch = VJ.SET(70, 50)
+ENT.AlertSoundPitch = VJ.SET(60, 50)
+-- ENT.PainSoundPitch = VJ.SET(70, 80)
+ENT.DeathSoundPitch  = VJ.SET(30, 40)
+
 
 -- ENT.SoundTbl_Idle = false
 -- ENT.SoundTbl_CombatIdle = false
@@ -163,7 +184,6 @@ ENT.SoundTbl_Death = {
 
 
 
-ENT.HasBreathSound = false
 
 ENT.BHLCIE_Preacher_Burning = false
 --------------------

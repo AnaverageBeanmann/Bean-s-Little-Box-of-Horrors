@@ -129,13 +129,13 @@ end
 --------------------
 function ENT:OnThinkActive()
 
-	if !self.Alerted && self.BHLCIE_Michael_PlayedWarnSound then
-		self.BHLCIE_Michael_PlayedWarnSound = false
-		self.BLBOH_Michael_Sprint = false
-		self.HasBreathSound = false
-		VJ.STOPSOUND(self.CurrentBreathSound)
-	end
 	if self.BHLCIE_Michael_CurrentMode == 0 then -- we're hunting!
+		if !self.Alerted && self.BHLCIE_Michael_PlayedWarnSound then
+			self.BHLCIE_Michael_PlayedWarnSound = false
+			self.BLBOH_Michael_Sprint = false
+			self.HasBreathSound = false
+			VJ.STOPSOUND(self.CurrentBreathSound)
+		end
 		if !self.BHLCIE_Michael_PlayedWarnSound && self:GetEnemy() != nil && self:Visible(self:GetEnemy()) then -- check if we haven't played our warning sound and we have a valid and visible enemy
 			-- play the warning sound
 			self.BHLCIE_Michael_PlayedWarnSound = true
@@ -156,6 +156,12 @@ function ENT:OnThinkActive()
 			-- michael's bored of this hunt and goes away for now
 			self.BHLCIE_Michael_Hunt_LostPatient = true
 			self:Michael_Flee()
+		end
+		if self:GetEnemy() != nil && self:GetPos():Distance(self:GetEnemy():GetPos()) <= 150 then
+			if math.random(1,10) == 1 then
+		VJ.EmitSound(self,"vj_blboh/shepherd/bullet_hit_target.mp3",70,100)
+				self.BHLCIE_Michael_Hunt_Patience = self.BHLCIE_Michael_Hunt_Patience + math.random(1,3)
+			end
 		end
 	end
 
@@ -251,7 +257,6 @@ end
 --------------------
 function ENT:Michael_Flee()
 
-	-- PrintMessage(4,"Michael has "..self.BLBOH_Michael_Killable_FleesLeft.." spare flee chances.")
 	-- flee!
 	self:SetRenderFX(16)
 	VJ.EmitSound(self,self.SoundTbl_Flee,100,100)
@@ -287,12 +292,18 @@ end
 --------------------
 function ENT:OnDamaged(dmginfo, hitgroup, status)
 	if status == "PreDamage" then
+		if self.BHLCIE_Michael_CurrentMode == 0 then
+			self.BHLCIE_Michael_Hunt_Patience = self.BHLCIE_Michael_Hunt_Patience + math.random(1,3)
+		end
 		if (self:Health() - dmginfo:GetDamage()) <= 0 && self.Dead == false then -- if we take lethal damage then..
-			self.BLBOH_Michael_Killable_FleesLeft = self.BLBOH_Michael_Killable_FleesLeft - 1
-			if self.BLBOH_Michael_Killable_FleesLeft <= 1 then -- might have to change this to a "is above 0" check
+			if self.BLBOH_Michael_Killable_FleesLeft > 0 or !self.BLBOH_Michael_Killable then -- might have to change this to a "is above 0" check
 				dmginfo:ScaleDamage(0) -- to avoid him actually dying
 				self:Michael_Flee()
 			end
+			if self.BLBOH_Michael_Killable then
+				self.BLBOH_Michael_Killable_FleesLeft = self.BLBOH_Michael_Killable_FleesLeft - 1
+			end
+			-- PrintMessage(4,"Michael has "..self.BLBOH_Michael_Killable_FleesLeft.." spare flee chances.")
 		end
 	end
 end
