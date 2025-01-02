@@ -251,7 +251,7 @@ end
 --------------------
 function ENT:Michael_Flee()
 
-	PrintMessage(4,"Michael has "..self.BLBOH_Michael_Killable_FleesLeft.." spare flee chances.")
+	-- PrintMessage(4,"Michael has "..self.BLBOH_Michael_Killable_FleesLeft.." spare flee chances.")
 	-- flee!
 	self:SetRenderFX(16)
 	VJ.EmitSound(self,self.SoundTbl_Flee,100,100)
