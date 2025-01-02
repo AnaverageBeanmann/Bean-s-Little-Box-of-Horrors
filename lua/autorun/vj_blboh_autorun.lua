@@ -90,8 +90,8 @@ if VJExists == true then
 				-- }
 				-- Panel:AddControl("ComboBox", vj_blboh_reset)
 
-				Panel:AddControl("Checkbox", {Label = "The Chupacabra is killable?", Command = "vj_singularity_mutant_canbecrippled"})
-				Panel:AddControl("Slider", {Label = "Total Chupacabra fend-offs:", Command = "vj_singularity_mutant_canbecrippled", Min = 1, Max = 10})
+				Panel:AddControl("Checkbox", {Label = "The Chupacabra is killable?", Command = "vj_blboh_michael_killable"})
+				Panel:AddControl("Slider", {Label = "Total Chupacabra fend-offs:", Command = "vj_blboh_michael_killable_timesneedtofendoff", Min = 0, Max = 10})
 				Panel:ControlHelp("This is the total ammount of times The Chupacabra has to be fended off before it's killable.")
 				Panel:ControlHelp("If the ConVar above this one is disabled, then this does nothing.")
 			end)
