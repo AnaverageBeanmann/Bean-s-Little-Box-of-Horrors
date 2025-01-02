@@ -80,13 +80,20 @@ ENT.BHLCIE_Michael_Hunt_LostPatient = false
 ENT.BHLCIE_Michael_Hide_Patience = 1
 ENT.BHLCIE_Michael_Hide_LostPatient = false
 ENT.BLBOH_Michael_Sprint = false
+ENT.BLBOH_Michael_Killable = false
+ENT.BLBOH_Michael_Killable_FleesLeft = 2
 --------------------
 function ENT:PreInit()
 	self.BHLCIE_Michael_Hunt_Patience = CurTime() + math.random(60,90)
 end
 --------------------
 function ENT:Init()
+	self:SetCollisionBounds(Vector(15, 15, 20), Vector(-15, -15, 0))
 	self.BHLCIE_Michael_Patience = CurTime() + math.random(5,10)
+	if GetConVar("vj_blboh_michael_killable"):GetInt() == 1 then
+		self.BLBOH_Michael_Killable = true
+	end
+	self.BLBOH_Michael_Killable_FleesLeft = GetConVar("vj_blboh_michael_killable_timesneedtofendoff"):GetInt()
 end
 --------------------
 function ENT:CustomOnAcceptInput(key, activator, caller, data)
@@ -122,6 +129,12 @@ end
 --------------------
 function ENT:OnThinkActive()
 
+	if !self.Alerted && self.BHLCIE_Michael_PlayedWarnSound then
+		self.BHLCIE_Michael_PlayedWarnSound = false
+		self.BLBOH_Michael_Sprint = false
+		self.HasBreathSound = false
+		VJ.STOPSOUND(self.CurrentBreathSound)
+	end
 	if self.BHLCIE_Michael_CurrentMode == 0 then -- we're hunting!
 		if !self.BHLCIE_Michael_PlayedWarnSound && self:GetEnemy() != nil && self:Visible(self:GetEnemy()) then -- check if we haven't played our warning sound and we have a valid and visible enemy
 			-- play the warning sound
@@ -238,6 +251,7 @@ end
 --------------------
 function ENT:Michael_Flee()
 
+	PrintMessage(4,"Michael has "..self.BLBOH_Michael_Killable_FleesLeft.." spare flee chances.")
 	-- flee!
 	self:SetRenderFX(16)
 	VJ.EmitSound(self,self.SoundTbl_Flee,100,100)
@@ -274,8 +288,25 @@ end
 function ENT:OnDamaged(dmginfo, hitgroup, status)
 	if status == "PreDamage" then
 		if (self:Health() - dmginfo:GetDamage()) <= 0 && self.Dead == false then -- if we take lethal damage then..
-			dmginfo:ScaleDamage(0) -- to avoid him actually dying
-			self:Michael_Flee()
+			self.BLBOH_Michael_Killable_FleesLeft = self.BLBOH_Michael_Killable_FleesLeft - 1
+			if self.BLBOH_Michael_Killable_FleesLeft <= 1 then -- might have to change this to a "is above 0" check
+				dmginfo:ScaleDamage(0) -- to avoid him actually dying
+				self:Michael_Flee()
+			end
 		end
 	end
 end
+--------------------
+function ENT:OnCreateDeathCorpse(dmginfo, hitgroup, corpseEnt)
+	VJ.EmitSound(self,"vj_blboh/shepherd/bullet_hit_target.mp3",70,100)
+	VJ.EmitSound(self,"vj_blboh/shepherd/bullet_hit_target.mp3",70,100)
+	timer.Simple(1, function() if IsValid(corpseEnt) then
+		if math.random(1,10) == 1 then
+			VJ.EmitSound(corpseEnt,"vj_blboh/michael_davies/Wretch2.mp3",80,100)
+		else
+			VJ.EmitSound(corpseEnt,"vj_blboh/michael_davies/Mortis.mp3",80,100)
+			-- VJ.EmitSound(corpseEnt,"vj_blboh/michael_davies/Mortis.mp3",70,100)
+		end
+	end end)
+end
+--------------------
