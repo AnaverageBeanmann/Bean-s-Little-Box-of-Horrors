@@ -3,8 +3,13 @@
 	"$baseTexture" "models/vj_blboh/michael/fast_zombie_sheet"
 	"$alphatest" 1
 	"$bumpmap" "models/vj_blboh/michael/fast_zombie_sheet_normal"
-	"$selfillum" "1"
-	"$selfillummask" "models/vj_blboh/michael/fast_zombie_sheet_glow"
+	"$emissiveBlendEnabled" 1
+	"$emissiveBlendTexture" "vgui/white"
+	"$emissiveBlendBaseTexture" "models/vj_blboh/michael/fast_zombie_sheet_glow"
+	"$emissiveBlendFlowTexture" "vgui/white"
+	"$emissiveBlendTint" "[1 1 1]"
+	"$emissiveBlendStrength" 1
+	 "$emissiveBlendScrollVector" "[0 0]"
 	"$surfaceprop" "flesh"
 	"$model" "1"
 	"$halflambert" "1"
