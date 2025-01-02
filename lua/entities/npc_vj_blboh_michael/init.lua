@@ -159,7 +159,7 @@ function ENT:OnThinkActive()
 		end
 		if self:GetEnemy() != nil && self:GetPos():Distance(self:GetEnemy():GetPos()) <= 150 then
 			if math.random(1,10) == 1 then
-		VJ.EmitSound(self,"vj_blboh/shepherd/bullet_hit_target.mp3",70,100)
+		-- VJ.EmitSound(self,"vj_blboh/shepherd/bullet_hit_target.mp3",70,100)
 				self.BHLCIE_Michael_Hunt_Patience = self.BHLCIE_Michael_Hunt_Patience + math.random(1,3)
 			end
 		end
