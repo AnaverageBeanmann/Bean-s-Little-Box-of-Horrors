@@ -93,6 +93,7 @@ if VJExists == true then
 				Panel:AddControl("Checkbox", {Label = "The Chupacabra is killable?", Command = "vj_blboh_michael_killable"})
 				Panel:AddControl("Slider", {Label = "Total Chupacabra fend-offs:", Command = "vj_blboh_michael_killable_timesneedtofendoff", Min = 0, Max = 10})
 				Panel:ControlHelp("This is the total ammount of times The Chupacabra has to be fended off before it's killable.")
+				Panel:ControlHelp("You have to get it to leave by doing damage for the count to go down; having it stop because it got bored doesn't count.")
 				Panel:ControlHelp("If the ConVar above this one is disabled, then this does nothing.")
 			end)
 		end)
