@@ -44,7 +44,9 @@ if VJExists == true then
 	-- May or may not add
 	-- VJ.AddNPC("Withering Bones","npc_vj_blboh_witheringbones",vCat) -- [] Wither Skeletons be like
 	-- VJ.AddNPC("The Creature","npc_vj_blboh_creature",vCat) -- [] Runs away if you look at it?
-
+	
+	-- Special Guests
+	VJ.AddNPC("Undead","npc_vj_blboh_undead",vCat)
 
 	/*
 	Model for Erectus, The Shepherd, and The Chupacabra are from Half-Life 2
@@ -68,6 +70,11 @@ if VJExists == true then
 	The Follower's model and some sounds are from Silent Hill: Downpour; other Follower sounds are from Dying Light and the Resident Evil 2 Remake
 
 	Code for Blackscary in Crack-Life Resurgence referenced for the Stalker's mechanic
+	
+	Model for Undead from Underhell
+	Animations for Undead from No More Room In Hell and Call of Duty: WWII
+	Sounds for Undead from They Hunger: Lost Souls and Call of Duty: Black Ops
+
 	*/
 
 	VJ.AddConVar("vj_blboh_michael_killable", 1, {FCVAR_ARCHIVE})
