@@ -3,29 +3,28 @@ include('shared.lua')
 --------------------
 ENT.Model = "models/vj_blboh/cultist.mdl"
 ENT.StartHealth = 100
+ENT.VJC_Data = {
+	CameraMode = 1,
+	ThirdP_Offset = Vector(60, 15, -60),
+}
 --------------------
 ENT.VJ_NPC_Class = {"CLASS_DEMON"}
 --------------------
-ENT.BloodColor = "Red"
--- ENT.BloodColor = VJ.BLOOD_COLOR_RED
+ENT.BloodColor = VJ.BLOOD_COLOR_RED
 --------------------
-ENT.MeleeAttackDamage = 15
 ENT.MeleeAttackDistance = 35
 ENT.MeleeAttackDamageDistance = 60
 ENT.TimeUntilMeleeAttackDamage = false
 ENT.MeleeAttackBleedEnemy = true
--- maybe try fiddling with these settings?
--- ENT.MeleeAttackBleedEnemyChance = 3 -- Chance that the enemy bleeds | 1 = always
-ENT.MeleeAttackBleedEnemyDamage = 1 -- How much damage per repetition
-ENT.MeleeAttackBleedEnemyTime = 0.5 -- How much time until the next repetition?
-ENT.MeleeAttackBleedEnemyReps = 8 -- How many repetitions?
+ENT.MeleeAttackBleedEnemyDamage = 1
+ENT.MeleeAttackBleedEnemyTime = 0.5
+ENT.MeleeAttackBleedEnemyReps = 8
 --------------------
 ENT.HasRangeAttack = true
 ENT.RangeAttackEntityToSpawn = "obj_vj_blboh_cultist_knife_projectile"
 ENT.RangeDistance = 350
 ENT.RangeToMeleeDistance = 100
-ENT.TimeUntilRangeAttackProjectileRelease = false
--- ENT.NextRangeAttackTime = 3
+ENT.TimeUntilRangeAttackProjectileRelease = 0.42
 ENT.NextRangeAttackTime_DoRand = 10
 --------------------
 ENT.DisableFootStepSoundTimer = true
@@ -44,28 +43,10 @@ ENT.SoundTbl_Alert = {
 	"vj_blboh/cultist/we_know_what_you_did.mp3"
 }
 ENT.SoundTbl_MeleeAttackMiss = {
-	"weapons/knife/knife_slash1.wav",
-	"weapons/knife/knife_slash2.wav"
+	"vj_blboh/cultist/knife_slash1.wav",
+	"vj_blboh/cultist/knife_slash2.wav"
 }
-ENT.SoundTbl_Death = {
-	"vj_blboh/cultist/death.mp3"
-}
-ENT.SoundTbl_RandomHellNoise = {
-	"npc/zombie/zombie_voice_idle5.wav",
-	"npc/zombie/zombie_voice_idle6.wav",
-	"npc/zombie_poison/pz_alert1.wav",
-	"npc/zombie_poison/pz_alert2.wav",
-	"npc/zombie_poison/pz_call1.wav",
-	"npc/zombie_poison/pz_throw2.wav",
-	"npc/zombie_poison/pz_throw3.wav",
-	"npc/fast_zombie/fz_alert_close1.wav",
-	"npc/fast_zombie/fz_alert_far1.wav",
-	"npc/fast_zombie/fz_frenzy1.wav",
-	"npc/fast_zombie/fz_scream1.wav",
-	"npc/antlion_guard/angry1.wav",
-	"npc/antlion_guard/angry2.wav",
-	"npc/antlion_guard/angry3.wav",
-}
+ENT.SoundTbl_Death = {"vj_blboh/cultist/death.mp3"}
 --------------------
 ENT.GeneralSoundPitch1 = 100
 ENT.GeneralSoundPitch2 = 100
@@ -79,124 +60,117 @@ function ENT:OnInput(key, activator, caller, data)
 	if key == "step" then
 		VJ.EmitSound(self,self.SoundTbl_FootStep,self.FootStepSoundLevel)
 	end
+
 	if key == "attack" then
-		if self:GetSequence() == 16 then
+		if self:GetSequence() == 16 then -- stab
 			self.MeleeAttackDamage = 15
 			self.MeleeAttackBleedEnemyChance = 1
-			self.SoundTbl_MeleeAttack = {"weapons/knife/knife_stab.wav"}
-		else
+			self.SoundTbl_MeleeAttack = {"vj_blboh/cultist/knife_stab.wav"}
+		else -- slash
 			self.MeleeAttackDamage = 10
 			self.MeleeAttackBleedEnemyChance = 3
-			-- we gotta get these sounds into the sounds folder
 			self.SoundTbl_MeleeAttack = {
-				"weapons/knife/knife_hit1.wav",
-				"weapons/knife/knife_hit2.wav",
-				"weapons/knife/knife_hit3.wav",
-				"weapons/knife/knife_hit4.wav"
+				"vj_blboh/cultist/knife_hit1.wav",
+				"vj_blboh/cultist/knife_hit2.wav",
+				"vj_blboh/cultist/knife_hit3.wav",
+				"vj_blboh/cultist/knife_hit4.wav"
 			}
 		end
 		self:MeleeAttackCode()
 	end
 	if key == "throw" then
-		self:RangeAttackCode()
+		-- self:RangeAttackCode()
 	end
 end
 --------------------
 function ENT:Init()
-	if math.random(1,5) == 1 then
-		self:SetBodygroup(1,1)
-		self:SetBodygroup(2,1)
-	end
-	if math.random(1,3) == 1 then
-		self:SetBodygroup(6,1)
-	end
-	if math.random(1,3) == 1 then
-		self:SetBodygroup(7,1)
-	end
-	self.HasSounds = false
-	util.ScreenShake(self:GetPos(), 5, 5, 5, 450)
-	self:SetSolid(SOLID_NONE)
-	self.HasMeleeAttack = false
+
+	self.DisableFindEnemy = true
+	self.CanInvestigate = false
+	self:AddFlags(FL_NOTARGET)
 	self.GodMode = true
 	self.MovementType = VJ_MOVETYPE_STATIONARY
 	self.CanTurnWhileStationary = false
 	self:SetMaterial("hud/killicons/default")
 	self:DrawShadow(false)
-	self.DisableFindEnemy = true
+	self.HasSounds = false
+
+	if math.random(1,5) == 1 then
+		self:SetBodygroup(1,1)
+		self:SetBodygroup(2,1)
+	end
+
+	if math.random(1,3) == 1 then
+		self:SetBodygroup(6,1)
+	end
+
+	if math.random(1,3) == 1 then
+		self:SetBodygroup(7,1)
+	end
+
+	self.SpawnLight = ents.Create("light_dynamic")
+	self.SpawnLight:SetKeyValue("brightness", "7.5")
+	self.SpawnLight:SetKeyValue("distance", "0")
+	self.SpawnLight:SetLocalPos(self:GetPos())
+	self.SpawnLight:SetLocalAngles(self:GetAngles())
+	self.SpawnLight:Fire("Color", "255 0 0 255")
+	self.SpawnLight:SetParent(self)
+	self.SpawnLight:Spawn()
+	self.SpawnLight:Activate()
+	self.SpawnLight:Fire("SetParentAttachment","portal")
+	self.SpawnLight:Fire("TurnOn", "", 0)
+	self:DeleteOnRemove(self.SpawnLight)
+
+	self.SpawnSprite1 = ents.Create("env_sprite")
+	self.SpawnSprite1:SetKeyValue("model","vj_base/sprites/vj_glow1.vmt")
+	self.SpawnSprite1:SetKeyValue("scale", "1.5")
+	self.SpawnSprite1:SetKeyValue("rendermode","5")
+	self.SpawnSprite1:SetKeyValue("rendercolor","142 0 0 255")
+	self.SpawnSprite1:SetKeyValue("spawnflags","1") -- If animated
+	self.SpawnSprite1:SetParent(self)
+	self.SpawnSprite1:Fire("SetParentAttachment", "portal")
+	self.SpawnSprite1:Fire("Kill", "", 13)
+	self.SpawnSprite1:Spawn()
+	self.SpawnSprite1:Activate()
+	self:DeleteOnRemove(self.SpawnSprite1)
 
 	ParticleEffectAttach("fire_medium_01_glow",PATTACH_POINT_FOLLOW,self,self:LookupAttachment("origin"))
 
+	util.ScreenShake(self:GetPos(), 5, 5, 5, 450)
+
 	VJ.EmitSound(self,{"npc/antlion/rumble1.wav"},75,math.random(150,175))
 
-	self.PreLaunchLight = ents.Create("light_dynamic")
-	self.PreLaunchLight:SetKeyValue("brightness", "7.5")
-	self.PreLaunchLight:SetKeyValue("distance", "0")
-	self.PreLaunchLight:SetLocalPos(self:GetPos())
-	self.PreLaunchLight:SetLocalAngles(self:GetAngles())
-	self.PreLaunchLight:Fire("Color", "255 0 0 255")
-	-- self.PreLaunchLight:SetKeyValue("style", 2)
-	self.PreLaunchLight:SetParent(self)
-	self.PreLaunchLight:Spawn()
-	self.PreLaunchLight:Activate()
-	self.PreLaunchLight:Fire("SetParentAttachment","portal")
-	self.PreLaunchLight:Fire("TurnOn", "", 0)
-	self:DeleteOnRemove(self.PreLaunchLight)
-
-	self.ChestGlow1 = ents.Create("env_sprite")
-	self.ChestGlow1:SetKeyValue("model","vj_base/sprites/vj_glow1.vmt")
-	self.ChestGlow1:SetKeyValue("scale", "1.5")
-	self.ChestGlow1:SetKeyValue("rendermode","5")
-	self.ChestGlow1:SetKeyValue("rendercolor","142 0 0 255")
-	self.ChestGlow1:SetKeyValue("spawnflags","1") -- If animated
-	self.ChestGlow1:SetParent(self)
-	self.ChestGlow1:Fire("SetParentAttachment", "portal")
-	self.ChestGlow1:Fire("Kill", "", 13)
-	self.ChestGlow1:Spawn()
-	self.ChestGlow1:Activate()
-	self:DeleteOnRemove(self.ChestGlow1)
-
 	timer.Simple(1,function() if IsValid(self) then
-		self.ChestGlow2 = ents.Create("env_sprite")
-		self.ChestGlow2:SetKeyValue("model","sprites/blueflare1.vmt")
-		self.ChestGlow2:SetKeyValue("scale", "1.5")
-		self.ChestGlow2:SetKeyValue("rendermode","5")
-		self.ChestGlow2:SetKeyValue("rendercolor","255 0 0 255")
-		self.ChestGlow2:SetKeyValue("spawnflags","1") -- If animated
-		self.ChestGlow2:SetParent(self)
-		self.ChestGlow2:Fire("SetParentAttachment", "portal")
-		self.ChestGlow2:Fire("Kill", "", 13)
-		self.ChestGlow2:Spawn()
-		self.ChestGlow2:Activate()
-		self:DeleteOnRemove(self.ChestGlow2)
+
+		self.SpawnSprite2 = ents.Create("env_sprite")
+		self.SpawnSprite2:SetKeyValue("model","sprites/blueflare1.vmt")
+		self.SpawnSprite2:SetKeyValue("scale", "1.5")
+		self.SpawnSprite2:SetKeyValue("rendermode","5")
+		self.SpawnSprite2:SetKeyValue("rendercolor","255 0 0 255")
+		self.SpawnSprite2:SetKeyValue("spawnflags","1") -- If animated
+		self.SpawnSprite2:SetParent(self)
+		self.SpawnSprite2:Fire("SetParentAttachment", "portal")
+		self.SpawnSprite2:Fire("Kill", "", 13)
+		self.SpawnSprite2:Spawn()
+		self.SpawnSprite2:Activate()
+		self:DeleteOnRemove(self.SpawnSprite2)
+
 	end end)
 
 	timer.Simple(2,function() if IsValid(self) then
-		timer.Simple(0.1,function() if IsValid(self) then
-			self.ChestGlow1:Fire("Kill", "", 0)
-		end end)
-		timer.Simple(0.3,function() if IsValid(self) then
-			self.ChestGlow2:Fire("Kill", "", 0)
-		end end)
-		VJ.EmitSound(self,"ambient/explosions/exp"..math.random(1,4)..".wav",80,100)
-		VJ.EmitSound(self,"ambient/explosions/exp"..math.random(1,4)..".wav",80,100)
-		VJ.EmitSound(self,"weapons/physcannon/energy_sing_explosion2.wav",70,75)
-		util.ScreenShake(self:GetPos(), 10, 5, 2.5, 300)
-		self:StopParticles()
-		self:SetSolid(SOLID_BBOX)
-		self.HasMeleeAttack = true
+
+		self.DisableFindEnemy = false
+		self.CanInvestigate = true
+		self:RemoveFlags(FL_NOTARGET)
 		self.GodMode = false
 		self.MovementType = VJ_MOVETYPE_GROUND
 		self.CanTurnWhileStationary = true
 		self:SetMaterial("")
 		self:DrawShadow(true)
 		self.HasSounds = true
-		self.DisableFindEnemy = false
+
 		self.BLBOH_SpawnLightBoom = true
-		-- effects.BeamRingPoint(self:GetPos(), 0.80, 0, 90, 5, 0, Color(255, 0, 0), {material="sprites/physgbeamb", framerate=20})
-		-- effects.BeamRingPoint(self:GetPos(), 0.80, 0, 180, 5, 0, Color(255, 0, 0), {material="sprites/physgbeamb", framerate=20})
-		effects.BeamRingPoint(self:GetPos() + self:GetUp() * 20, 0.5, 0, 40, 5, 0, Color(255, 0, 0), {material="sprites/physgbeamb", framerate=20})
-		effects.BeamRingPoint(self:GetPos() + self:GetUp() * 40, 0.5, 0, 60, 5, 0, Color(255, 0, 0), {material="sprites/physgbeamb", framerate=20})
-		effects.BeamRingPoint(self:GetPos() + self:GetUp() * 60, 0.5, 0, 40, 5, 0, Color(255, 0, 0), {material="sprites/physgbeamb", framerate=20})
+
 		self.CultistKnifeModel = ents.Create("prop_physics")	
 		self.CultistKnifeModel:SetModel("models/vj_blboh/cultist_knife.mdl")
 		self.CultistKnifeModel:SetLocalPos(self:GetPos())
@@ -210,17 +184,31 @@ function ENT:Init()
 		self.CultistKnifeModel:Activate()
 		self.CultistKnifeModel:SetSolid(SOLID_NONE)
 		self.CultistKnifeModel:AddEffects(EF_BONEMERGE)
+
+		self:StopParticles()
+		effects.BeamRingPoint(self:GetPos() + self:GetUp() * 20, 0.5, 0, 40, 5, 0, Color(255, 0, 0), {material="sprites/physgbeamb", framerate=20})
+		effects.BeamRingPoint(self:GetPos() + self:GetUp() * 40, 0.5, 0, 60, 5, 0, Color(255, 0, 0), {material="sprites/physgbeamb", framerate=20})
+		effects.BeamRingPoint(self:GetPos() + self:GetUp() * 60, 0.5, 0, 40, 5, 0, Color(255, 0, 0), {material="sprites/physgbeamb", framerate=20})
+		util.ScreenShake(self:GetPos(), 10, 5, 2.5, 300)
+
+		VJ.EmitSound(self,"ambient/explosions/exp"..math.random(1,4)..".wav",80,100)
+		VJ.EmitSound(self,"ambient/explosions/exp"..math.random(1,4)..".wav",80,100)
+		VJ.EmitSound(self,"weapons/physcannon/energy_sing_explosion2.wav",70,75)
+
+		timer.Simple(0.1,function() if IsValid(self) then
+			self.SpawnSprite1:Fire("Kill", "", 0)
+		end end)
+
+		timer.Simple(0.3,function() if IsValid(self) then
+			self.SpawnSprite2:Fire("Kill", "", 0)
+		end end)
+
 	end end)
-	timer.Simple(5,function() if IsValid(self) then
-		self.PreLaunchLight:Fire("Kill", "", 0)
+
+	timer.Simple(4,function() if IsValid(self) then
+		self.SpawnLight:Fire("Kill", "", 0)
 	end end)
-end
---------------------
-function ENT:Shepherd_PlayHellScream()
-	effects.BeamRingPoint(self:GetPos(), 0.80, 0, 175, 5, 0, Color(255, 0, 0), {material="sprites/physgbeamb", framerate=20})
-	VJ.EmitSound(self,"ambient/fire/ignite.wav",75,math.random(45,70))
-	VJ.EmitSound(self,self.SoundTbl_RandomHellNoise,80,math.random(90,100))
-	util.ScreenShake(self:GetPos(), 50, 5, 3, 750)
+
 end
 --------------------
 function ENT:TranslateActivity(act)
@@ -230,46 +218,79 @@ function ENT:TranslateActivity(act)
 	return act
 end
 --------------------
-function ENT:OnThinkActive()
-	-- PrintMessage(4,""..self:GetSequence().."")
-	if IsValid(self.PreLaunchLight) then
-		self.PreLaunchLight:SetKeyValue("distance", self.BLBOH_SpawnLightLevel)
+function ENT:OnThink()
+
+	if IsValid(self.SpawnLight) then
+
+		self.SpawnLight:SetKeyValue("distance", self.BLBOH_SpawnLightLevel)
+
 		if !self.BLBOH_SpawnLightBoom then
+
 			self.BLBOH_SpawnLightLevel = self.BLBOH_SpawnLightLevel + 2.5
+
 		end
+
 		if self.BLBOH_SpawnLightBoom then
+
 			if self.BLBOH_SpawnLightFadeStage == 1 then
+
 				self.BLBOH_SpawnLightLevel = self.BLBOH_SpawnLightLevel + 2.5
+
 			elseif self.BLBOH_SpawnLightFadeStage == 2 then
+
 				self.BLBOH_SpawnLightLevel = self.BLBOH_SpawnLightLevel - 7.5
+
 			else
+
 				self.BLBOH_SpawnLightLevel = self.BLBOH_SpawnLightLevel + 15
+
 			end
+
 			timer.Simple(0.25,function() if IsValid(self) && self.BLBOH_SpawnLightFadeStage != 1 then
+
 				self.BLBOH_SpawnLightFadeStage = 1
+
 			end end)
+
 			timer.Simple(0.5,function() if IsValid(self) && self.BLBOH_SpawnLightFadeStage != 2 then
+
 				self.BLBOH_SpawnLightFadeStage = 2
+
 			end end)
+
 		end
+
 	end
-	-- check to make sure this isn't being spammed
+
+end
+--------------------
+function ENT:OnThinkActive()
+
 	if self:GetEnemy() == nil then return end -- don't run this if we have no enemy
+
 	if !self.BLBOH_Cultist_Sprinting && self:GetPos():Distance(self:GetEnemy():GetPos()) >= 300 then -- enemy is too far, start sprinting
 		self.BLBOH_Cultist_Sprinting = true
 	end
+
 	if self.BLBOH_Cultist_Sprinting && self:GetPos():Distance(self:GetEnemy():GetPos()) < 300 then -- go back to running since we're close enough
 		self.BLBOH_Cultist_Sprinting = false
 	end
+
 end
 --------------------
 function ENT:RangeAttackProjSpawnPos(projectile)
-	return self:GetAttachment(self:LookupAttachment("anim_attachment_RH")).Pos -- Attachment example
-	-- return self:GetPos() + self:GetUp() * 20
+	return self:GetAttachment(self:LookupAttachment("anim_attachment_RH")).Pos
 end
 --------------------
 function ENT:RangeAttackProjVelocity(projectile)
-	return (self:GetEnemy():GetPos() - self:GetPos()) * 2.5 + self:GetUp() * math.random(150,200) + self:GetRight() * math.random(-10,10)
+
+	-- return (self:GetEnemy():GetPos() - self:GetPos()) * 2.5 + self:GetUp() * math.random(100,150) + self:GetRight() * math.random(-0,0) + (self:GetEnemy():GetVelocity() * 1)
+
+	local phys = projectile:GetPhysicsObject()
+	if IsValid(phys) && phys:IsGravityEnabled() then
+		return VJ.CalculateTrajectory(self, self:GetEnemy(), "Line", projectile:GetPos(), 0.5, 1000)
+	end
+
 end
 --------------------
 function ENT:OnDeath(dmginfo, hitgroup, status)

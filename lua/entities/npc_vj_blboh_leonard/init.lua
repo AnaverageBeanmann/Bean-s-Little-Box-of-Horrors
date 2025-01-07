@@ -88,6 +88,9 @@ ENT.LNR_DoorToBreak = nil
 ENT.BLBOH_Follower_Spawning = true
 
 ENT.BLBOH_Follower_IsHidden = true
+ENT.BLBOH_Leonard_Sprint = false
+ENT.BLBOH_Michael_Killable = false
+ENT.BLBOH_Michael_Killable_FleesLeft = 2
 --------------------
 function ENT:PreInit()
 end
@@ -104,6 +107,10 @@ function ENT:Init()
 	timer.Simple(0.1,function() if IsValid(self) then
 			self:VJ_ACT_PLAYACTIVITY({"vjseq_extra"},"LetAttacks",5,false) -- rename this function and all other instances of it to PlayAnim
 	end end)
+	if GetConVar("vj_blboh_michael_killable"):GetInt() == 1 then
+		self.BLBOH_Michael_Killable = true
+	end
+	self.BLBOH_Michael_Killable_FleesLeft = GetConVar("vj_blboh_michael_killable_timesneedtofendoff"):GetInt()
 end
 --------------------
 function ENT:BLBOH_Leonard_SpawnFog()
@@ -146,8 +153,10 @@ function ENT:BLBOH_Leonard_StopHiding()
 	self.BHLCIE_Follower_CurrentMode = 0
 	self:RemoveFlags(FL_NOTARGET)
 	self:BLBOH_Leonard_SpawnFog()
-	self:SetMaterial("")
-	self:DrawShadow(true)
+	timer.Simple(0.15, function() if IsValid(self) then
+		self:SetMaterial("")
+		self:DrawShadow(true)
+	end end)
 	self.HasSounds = true
 	VJ.EmitSound(self,"vj_blboh/preacher/fireball.ogg",70,50)
 	VJ.EmitSound(self,"vj_blboh/leonard/idle"..math.random(1,2)..".mp3",80,100)
@@ -160,7 +169,7 @@ function ENT:BLBOH_Leonard_StopHiding()
 	end end)
 end
 --------------------
-function ENT:CustomOnAcceptInput(key, activator, caller, data)
+function ENT:OnInput(key, activator, caller, data)
 	if key == "step" then
 		if self.BHLCIE_Follower_CurrentMode == 0 then
 			VJ.EmitSound(self,self.SoundTbl_FootStep,self.FootStepSoundLevel)
@@ -338,6 +347,9 @@ function ENT:TranslateActivity(act)
 	-- if act == ACT_WALK || act == ACT_RUN then
 		-- return ACT_WALK_ON_FIRE
 	-- end
+	if act == ACT_RUN && self.BLBOH_Leonard_Sprint then
+		return ACT_SPRINT
+	end
 	return act
 end
 --------------------
@@ -418,6 +430,13 @@ function ENT:OnThink()
 		end
 	-- end
 
+	if self:GetEnemy() == nil then return end
+	if !self.BLBOH_Leonard_Sprint && self:GetPos():Distance(self:GetEnemy():GetPos()) <= 300 then -- enemy is close enough, start sprinting
+		self.BLBOH_Leonard_Sprint = true
+	end
+	if self.BLBOH_Leonard_Sprint && self:GetPos():Distance(self:GetEnemy():GetPos()) > 300 then -- go back to running since we're now too far
+		self.BLBOH_Leonard_Sprint = false
+	end
 
 end
 --------------------
@@ -460,14 +479,19 @@ end
 function ENT:OnDamaged(dmginfo, hitgroup, status)
 	if status == "PreDamage" then
 		if (self:Health() - dmginfo:GetDamage()) <= 0 && self.Dead == false then -- if we take lethal damage then..
-			dmginfo:ScaleDamage(0) -- to avoid him actually dying
-			self.GodMode = true
-			self:VJ_ACT_PLAYACTIVITY({"vjseq_extra"},"LetAttacks",5,false) -- rename this function and all other instances of it to PlayAnim
+			if self.BLBOH_Michael_Killable_FleesLeft > 0 or !self.BLBOH_Michael_Killable then -- might have to change this to a "is above 0" check
+				dmginfo:ScaleDamage(0) -- to avoid him actually dying
+				self.GodMode = true
+				self:VJ_ACT_PLAYACTIVITY({"vjseq_extra"},"LetAttacks",5,false) -- rename this function and all other instances of it to PlayAnim
+			end
+			if self.BLBOH_Michael_Killable then
+				self.BLBOH_Michael_Killable_FleesLeft = self.BLBOH_Michael_Killable_FleesLeft - 1
+			end
 		end
 	end
 end
 --------------------
-function ENT:OnDeath(dmginfo, hitgroup, status) -- just incase this happens somehow
+function ENT:OnDeath(dmginfo, hitgroup, status)
 	if status == "Finish" then
 		if IsValid(self.dummyEnt) then
 			self.dummyEnt:StopParticles()

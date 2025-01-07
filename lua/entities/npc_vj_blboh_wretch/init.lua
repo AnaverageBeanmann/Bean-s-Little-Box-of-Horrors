@@ -7,27 +7,27 @@ ENT.StartHealth = 200
 ENT.VJ_NPC_Class = {"CLASS_DEMON"}
 ENT.HasPoseParameterLooking = false
 --------------------
-ENT.BloodColor = "Oil"
--- ENT.BloodColor = VJ.BLOOD_COLOR_OIL
+ENT.BloodColor = VJ.BLOOD_COLOR_OIL
 --------------------
-ENT.MeleeAttackDamage = 10
+-- ENT.MeleeAttackDamage = 10 -- if this is staying at 10 then we can remove it, since 10 is the default
 ENT.MeleeAttackDamageType = DMG_CLUB
 ENT.MeleeAttackDistance = 75
 ENT.MeleeAttackDamageDistance = 90
 ENT.TimeUntilMeleeAttackDamage = false
 --------------------
 ENT.DisableFootStepSoundTimer = true
-ENT.SoundTbl_FootStep = {"npc/fast_zombie/foot1.wav","npc/fast_zombie/foot2.wav","npc/fast_zombie/foot3.wav","npc/fast_zombie/foot4.wav"}
+ENT.SoundTbl_FootStep = {
+	"npc/fast_zombie/foot1.wav",
+	"npc/fast_zombie/foot2.wav",
+	"npc/fast_zombie/foot3.wav",
+	"npc/fast_zombie/foot4.wav"
+}
 ENT.SoundTbl_Alert = {
 	"vj_blboh/wretch/hurt1.wav",
 	"vj_blboh/wretch/hurt2.wav",
 	"vj_blboh/wretch/hurt3.wav",
 	"vj_blboh/wretch/gargle3.wav"
 }
--- ENT.SoundTbl_BeforeMeleeAttack = {
-	-- "vj_blboh/wretch/attackfast.wav",
-	-- "vj_blboh/wretch/attackfast2.wav"
--- }
 ENT.SoundTbl_BeforeMeleeAttack = {
 	"vj_blboh/wretch/hurt1.wav",
 	"vj_blboh/wretch/hurt2.wav",
@@ -48,14 +48,11 @@ ENT.SoundTbl_Pain = {
 	"vj_blboh/wretch/hurt3.wav"
 }
 ENT.SoundTbl_Death = {"vj_blboh/wretch/gargle3.wav"}
-
--- ENT.GeneralSoundPitch1 = 100
--- ENT.GeneralSoundPitch2 = 100
 ENT.BeforeMeleeAttackSoundPitch = VJ.SET(95, 120)
 ENT.PainSoundPitch = VJ.SET(80,110)
 ENT.DeathSoundPitch = VJ.SET(60, 100)
 --------------------
-function ENT:CustomOnAcceptInput(key, activator, caller, data)
+function ENT:OnInput(key, activator, caller, data)
 	if key == "step" && self:GetMaterial() != "hud/killicons/default" then
 		VJ.EmitSound(self,self.SoundTbl_FootStep,self.FootStepSoundLevel)
 	end
@@ -67,94 +64,117 @@ function ENT:CustomOnAcceptInput(key, activator, caller, data)
 	end
 end
 --------------------
---------------------
 function ENT:Init()
 
-	local bloodeffect = EffectData()
+	local SpawnEffectData = EffectData()
 
-	self.MovementType = VJ_MOVETYPE_STATIONARY
 	self.DisableFindEnemy = true
-	self.HasSounds = false
-	self.HasMeleeAttack = false
+	self.CanInvestigate = false
+	self:AddFlags(FL_NOTARGET)
 	self.GodMode = true
+	self.MovementType = VJ_MOVETYPE_STATIONARY
 	self.CanTurnWhileStationary = false
-	self:SetSolid(SOLID_NONE)
 	self:SetMaterial("hud/killicons/default")
 	self:DrawShadow(false)
+	self.HasSounds = false
+
+	SpawnEffectData:SetOrigin(self:GetPos() + self:GetUp()*-25)
+	SpawnEffectData:SetScale(25)
+	util.Effect("ThumperDust", SpawnEffectData)
+
+	SpawnEffectData:SetOrigin(self:GetPos() + self:GetUp()*-5 + self:GetForward()*25)
+	SpawnEffectData:SetColor(VJ_Color2Byte(Color(25,25,25,255)))
+	SpawnEffectData:SetScale(50)
+	util.Effect("VJ_Blood1",SpawnEffectData)
+
+	SpawnEffectData:SetOrigin(self:GetPos() + self:GetUp()*-5 + self:GetForward()*-25)
+	util.Effect("VJ_Blood1",SpawnEffectData)
+
+	SpawnEffectData:SetOrigin(self:GetPos() + self:GetUp()*-5 + self:GetRight()*25)
+	util.Effect("VJ_Blood1",SpawnEffectData)
+
+	SpawnEffectData:SetOrigin(self:GetPos() + self:GetUp()*-5 + self:GetRight()*-25)
+	util.Effect("VJ_Blood1",SpawnEffectData)
+
+	-- why is this here?
+	SpawnEffectData:SetOrigin(self:GetPos())
+	util.Effect("ThumperDust", SpawnEffectData)
+
+	util.ScreenShake(self:GetPos(), 1, 40, 3, 600)
 
 	VJ.EmitSound(self,"npc/antlion/muffled_boulder_impact_hard"..math.random(1,2)..".wav",80,math.random(80,110))
-		bloodeffect:SetOrigin(self:GetPos() + self:GetUp()*-25)
-		bloodeffect:SetScale(25)
-		util.Effect("ThumperDust", bloodeffect)
-		util.ScreenShake(self:GetPos(), 1, 40, 3, 600)
-
-		bloodeffect:SetOrigin(self:GetPos() + self:GetUp()*-5 + self:GetForward()*25)
-		bloodeffect:SetColor(VJ_Color2Byte(Color(25,25,25,255)))
-		bloodeffect:SetScale(50)
-		util.Effect("VJ_Blood1",bloodeffect)
-		bloodeffect:SetOrigin(self:GetPos() + self:GetUp()*-5 + self:GetForward()*-25)
-		util.Effect("VJ_Blood1",bloodeffect)
-		bloodeffect:SetOrigin(self:GetPos() + self:GetUp()*-5 + self:GetRight()*25)
-		util.Effect("VJ_Blood1",bloodeffect)
-		bloodeffect:SetOrigin(self:GetPos() + self:GetUp()*-5 + self:GetRight()*-25)
-		util.Effect("VJ_Blood1",bloodeffect)
-		bloodeffect:SetOrigin(self:GetPos())
-		util.Effect("ThumperDust", bloodeffect)
 
 	timer.Simple(1,function() if IsValid(self) then
-		VJ.EmitSound(self,"npc/antlion/muffled_boulder_impact_hard"..math.random(1,2)..".wav",80,math.random(80,110))
-		bloodeffect:SetOrigin(self:GetPos())
-		bloodeffect:SetScale(40)
-		util.Effect("ThumperDust", bloodeffect)
+
+		SpawnEffectData:SetOrigin(self:GetPos())
+		SpawnEffectData:SetScale(40)
+		util.Effect("ThumperDust", SpawnEffectData)
+
+		SpawnEffectData:SetOrigin(self:GetPos() + self:GetUp()*25 + self:GetForward()*25)
+		SpawnEffectData:SetColor(VJ_Color2Byte(Color(25,25,25,255)))
+		SpawnEffectData:SetScale(75)
+		util.Effect("VJ_Blood1",SpawnEffectData)
+
+		SpawnEffectData:SetOrigin(self:GetPos() + self:GetUp()*25 + self:GetForward()*-25)
+		util.Effect("VJ_Blood1",SpawnEffectData)
+
+		SpawnEffectData:SetOrigin(self:GetPos() + self:GetUp()*25 + self:GetRight()*25)
+		util.Effect("VJ_Blood1",SpawnEffectData)
+
+		SpawnEffectData:SetOrigin(self:GetPos() + self:GetUp()*25 + self:GetRight()*-25)
+		util.Effect("VJ_Blood1",SpawnEffectData)
+
+		SpawnEffectData:SetOrigin(self:GetPos())
+		util.Effect("ThumperDust", SpawnEffectData)
+
 		util.ScreenShake(self:GetPos(), 1.5, 40, 3, 600)
 
-		bloodeffect:SetOrigin(self:GetPos() + self:GetUp()*25 + self:GetForward()*25)
-		bloodeffect:SetColor(VJ_Color2Byte(Color(25,25,25,255)))
-		-- bloodeffect:SetColor(VJ_Color2Byte(Color(205,206,194,255)))
-		bloodeffect:SetScale(75)
-		util.Effect("VJ_Blood1",bloodeffect)
-		bloodeffect:SetOrigin(self:GetPos() + self:GetUp()*25 + self:GetForward()*-25)
-		util.Effect("VJ_Blood1",bloodeffect)
-		bloodeffect:SetOrigin(self:GetPos() + self:GetUp()*25 + self:GetRight()*25)
-		util.Effect("VJ_Blood1",bloodeffect)
-		bloodeffect:SetOrigin(self:GetPos() + self:GetUp()*25 + self:GetRight()*-25)
-		util.Effect("VJ_Blood1",bloodeffect)
-		bloodeffect:SetOrigin(self:GetPos())
-		util.Effect("ThumperDust", bloodeffect)
+		VJ.EmitSound(self,"npc/antlion/muffled_boulder_impact_hard"..math.random(1,2)..".wav",80,math.random(80,110))
 
 	end end)
+
 	timer.Simple(1.5,function() if IsValid(self) then
+
 		self:VJ_ACT_PLAYACTIVITY({"vjseq_digout"},true,false)
-	end end)
-	timer.Simple(2,function() if IsValid(self) then
-		VJ.EmitSound(self,"physics/concrete/boulder_impact_hard"..math.random(1,4)..".wav",80,math.random(80,110))
-		VJ.EmitSound(self,self.SoundTbl_Alert,80)
-		util.ScreenShake(self:GetPos(), 2.5, 40, 3, 450)
-
-		bloodeffect:SetOrigin(self:GetPos() + self:GetUp()*25 + self:GetForward()*25)
-		bloodeffect:SetColor(VJ_Color2Byte(Color(25,25,25,255)))
-		bloodeffect:SetScale(100)
-		util.Effect("VJ_Blood1",bloodeffect)
-		bloodeffect:SetOrigin(self:GetPos() + self:GetUp()*25 + self:GetForward()*-25)
-		util.Effect("VJ_Blood1",bloodeffect)
-		bloodeffect:SetOrigin(self:GetPos() + self:GetUp()*25 + self:GetRight()*25)
-		util.Effect("VJ_Blood1",bloodeffect)
-		bloodeffect:SetOrigin(self:GetPos() + self:GetUp()*25 + self:GetRight()*-25)
-		util.Effect("VJ_Blood1",bloodeffect)
-		bloodeffect:SetOrigin(self:GetPos())
-		util.Effect("ThumperDust", bloodeffect)
-
 
 	end end)
+
 	timer.Simple(2,function() if IsValid(self) then
-		self:SetSolid(SOLID_BBOX)
-		self.HasMeleeAttack = true
+
+		self.DisableFindEnemy = false
+		self.CanInvestigate = true
+		self:RemoveFlags(FL_NOTARGET)
 		self.GodMode = false
 		self.MovementType = VJ_MOVETYPE_GROUND
 		self.CanTurnWhileStationary = true
 		self:SetMaterial("")
 		self:DrawShadow(true)
 		self.HasSounds = true
-		self.DisableFindEnemy = false
+
+		SpawnEffectData:SetOrigin(self:GetPos() + self:GetUp()*25 + self:GetForward()*25)
+		SpawnEffectData:SetColor(VJ_Color2Byte(Color(25,25,25,255)))
+		SpawnEffectData:SetScale(100)
+		util.Effect("VJ_Blood1",SpawnEffectData)
+
+		SpawnEffectData:SetOrigin(self:GetPos() + self:GetUp()*25 + self:GetForward()*-25)
+		util.Effect("VJ_Blood1",SpawnEffectData)
+
+		SpawnEffectData:SetOrigin(self:GetPos() + self:GetUp()*25 + self:GetRight()*25)
+		util.Effect("VJ_Blood1",SpawnEffectData)
+
+		SpawnEffectData:SetOrigin(self:GetPos() + self:GetUp()*25 + self:GetRight()*-25)
+		util.Effect("VJ_Blood1",SpawnEffectData)
+
+		SpawnEffectData:SetOrigin(self:GetPos())
+		util.Effect("ThumperDust", SpawnEffectData)
+
+		util.ScreenShake(self:GetPos(), 2.5, 40, 3, 450)
+
+		VJ.EmitSound(self,"physics/concrete/boulder_impact_hard"..math.random(1,4)..".wav",80,math.random(80,110))
+		VJ.EmitSound(self,self.SoundTbl_Alert,80)
+
+
 	end end)
+
 end
+--------------------

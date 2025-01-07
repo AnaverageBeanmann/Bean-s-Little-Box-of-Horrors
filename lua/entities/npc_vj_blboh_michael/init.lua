@@ -6,8 +6,7 @@ ENT.StartHealth = 300
 --------------------
 ENT.VJ_NPC_Class = {"CLASS_DEMON"}
 --------------------
-ENT.BloodColor = "Red"
--- ENT.BloodColor = VJ.BLOOD_COLOR_RED
+ENT.BloodColor = VJ.BLOOD_COLOR_RED
 --------------------
 ENT.MeleeAttackDamage = 25
 ENT.AnimTbl_MeleeAttack = {"vjges_s_attack1","vjges_s_attack2","vjges_s_attack3"}
@@ -57,47 +56,41 @@ ENT.BreathSoundLevel = 100
 ENT.GeneralSoundPitch1 = 100
 ENT.GeneralSoundPitch2 = 100
 --------------------
-ENT.BHLCIE_Michael_CurrentMode = 0
-/*
-0 - Attack Mode
-1 - Fleeing
-2 - Hiding
-*/
-ENT.BHLCIE_Michael_HideTime = 0
-ENT.BHLCIE_Michael_PlayedWarnSound = false
-ENT.BHLCIE_Michael_TimesFendedOff = 1
-ENT.BHLCIE_Michael_Patience = 0
-ENT.BHLCIE_Michael_LostPatient = false
-ENT.BHLCIE_Michael_Difficulty = 1
-/*
-1 - Easy
-2 - Medium
-3 - Hard
-4 - Very Hard (actually just hard)
-*/
-ENT.BHLCIE_Michael_Hunt_Patience = 1
-ENT.BHLCIE_Michael_Hunt_LostPatient = false
-ENT.BHLCIE_Michael_Hide_Patience = 1
-ENT.BHLCIE_Michael_Hide_LostPatient = false
-ENT.BLBOH_Michael_Sprint = false
-ENT.BLBOH_Michael_Killable = false
-ENT.BLBOH_Michael_Killable_FleesLeft = 2
+ENT.BLBOH_Michael_CurrentMode = 0
+-- 0 = Attack Mode
+-- 1 = Fleeing
+-- 2 = Hiding
+ENT.BLBOH_Michael_HideTime = 0 -- how long michael has to hide for before he can re-enter hunt mode
+ENT.BLBOH_Michael_PlayedWarnSound = false -- did he already play his warning sound?
+ENT.BLBOH_Michael_Search_Patience = 0 -- this drains if he has no enemy; when it hits 0, he'll be able to see where everyone is
+ENT.BLBOH_Michael_Search_LostPatient = false -- see above value
+ENT.BLBOH_Michael_Hunt_Patience = 1 -- drains while chasing an enemy; if it hits 0, he loses interest and goes into hiding
+ENT.BLBOH_Michael_Hunt_LostPatient = false -- gets set to true when michael's bored of a hunt
+ENT.BLBOH_Michael_Sprint = false -- sprints after playing his alert sound
+ENT.BLBOH_Michael_Killable = false -- YES!! KILL!!!!!
+ENT.BLBOH_Michael_Killable_FleesLeft = 2  -- how many times you have to get him to fuck off with your bullets before he actually dies
 --------------------
 function ENT:PreInit()
-	self.BHLCIE_Michael_Hunt_Patience = CurTime() + math.random(60,90)
+	self.BLBOH_Michael_Hunt_Patience = CurTime() + math.random(60,90)
 end
 --------------------
 function ENT:Init()
+
+	-- figure out a spawn sequence for him
+
 	self:SetCollisionBounds(Vector(15, 15, 20), Vector(-15, -15, 0))
-	self.BHLCIE_Michael_Patience = CurTime() + math.random(5,10)
+	self.BLBOH_Michael_Search_Patience = CurTime() + math.random(5,10)
+
 	if GetConVar("vj_blboh_michael_killable"):GetInt() == 1 then
 		self.BLBOH_Michael_Killable = true
 	end
+
 	self.BLBOH_Michael_Killable_FleesLeft = GetConVar("vj_blboh_michael_killable_timesneedtofendoff"):GetInt()
+
 end
 --------------------
-function ENT:CustomOnAcceptInput(key, activator, caller, data)
-	if key == "step" && !self.BHLCIE_Michael_CurrentMode then
+function ENT:OnInput(key, activator, caller, data)
+	if key == "step" && self.BLBOH_Michael_CurrentMode == 0 then
 		VJ.EmitSound(self,self.SoundTbl_FootStep,self.FootStepSoundLevel)
 	end
 	if key == "attack" then
@@ -113,187 +106,234 @@ function ENT:TranslateActivity(act)
 end
 --------------------
 function ENT:OnAlert(ent)
-	self.BHLCIE_Michael_Hunt_Patience = CurTime() + math.random(60,90)
+	self.BLBOH_Michael_Hunt_Patience = CurTime() + math.random(60,90)
 end
 --------------------
 function ENT:BLBOH_Michael_GoIntoHiding()
-	self.BHLCIE_Michael_CurrentMode = 2
-	self.BHLCIE_Michael_HideTime = CurTime() + math.random(10,60)
-	self.FindEnemy_CanSeeThroughWalls = true
+
+	self.BLBOH_Michael_CurrentMode = 2
+	self.BLBOH_Michael_HideTime = CurTime() + math.random(10,60)
+
 	self.SightAngle = 360
+	self.FindEnemy_CanSeeThroughWalls = true
+
 	self:SetMaterial("hud/killicons/default")
 	self:DrawShadow(false)
 	self:RemoveAllDecals()
+
 	self.HasFootStepSound = false
+
 end
 --------------------
 function ENT:OnThinkActive()
 
-	if self.BHLCIE_Michael_CurrentMode == 0 then -- we're hunting!
-		if !self.Alerted && self.BHLCIE_Michael_PlayedWarnSound then
-			self.BHLCIE_Michael_PlayedWarnSound = false
+	if self.BLBOH_Michael_CurrentMode == 0 then -- we're hunting!
+
+		if !self.Alerted && self.BLBOH_Michael_PlayedWarnSound then
+
+			self.BLBOH_Michael_PlayedWarnSound = false
 			self.BLBOH_Michael_Sprint = false
+
 			self.HasBreathSound = false
+
 			VJ.STOPSOUND(self.CurrentBreathSound)
+
 		end
-		if !self.BHLCIE_Michael_PlayedWarnSound && self:GetEnemy() != nil && self:Visible(self:GetEnemy()) then -- check if we haven't played our warning sound and we have a valid and visible enemy
+
+		-- check if we haven't played our warning sound and we have a valid and visible enemy
+		if !self.BLBOH_Michael_PlayedWarnSound && self:GetEnemy() != nil && self:Visible(self:GetEnemy()) then
+
 			-- play the warning sound
-			self.BHLCIE_Michael_PlayedWarnSound = true
-			self.BHLCIE_Michael_Hunt_Patience = CurTime() + math.random(15,30)
+			self.BLBOH_Michael_PlayedWarnSound = true
+			self.BLBOH_Michael_Hunt_Patience = CurTime() + math.random(15,30)
 			self.BLBOH_Michael_Sprint = true
-			self.FindEnemy_CanSeeThroughWalls = false
+
 			self.SightAngle = 156
-			VJ.EmitSound(self,self.SoundTbl_Warn,100,100)
+			self.FindEnemy_CanSeeThroughWalls = false
+
 			self.HasBreathSound = true
+			VJ.EmitSound(self,self.SoundTbl_Warn,100,100)
+
 		end
-		if self.BHLCIE_Michael_Patience < CurTime() && !self.BHLCIE_Michael_LostPatient && !self.BHLCIE_Michael_PlayedWarnSound then -- if our patience counter has hit 0 and we haven't lost our patience..
+
+		-- if our patience counter has hit 0 and we haven't lost our patience..
+		if self.BLBOH_Michael_Search_Patience < CurTime() && !self.BLBOH_Michael_Search_LostPatient && !self.BLBOH_Michael_PlayedWarnSound then
+
 			-- lose patience. michael is now omnipotenent
-			self.BHLCIE_Michael_LostPatient = true
-			self.FindEnemy_CanSeeThroughWalls = true
+			self.BLBOH_Michael_Search_LostPatient = true
 			self.SightAngle = 360
+			self.FindEnemy_CanSeeThroughWalls = true
+
 		end
-		if self.IsValid(self:GetEnemy()) && self.BHLCIE_Michael_Hunt_Patience < CurTime() && !self.BHLCIE_Michael_Hunt_LostPatient then
+
+		-- we have a valid enemy, our hunt patience has run out, and we haven't lost our hunt patience
+		if self.IsValid(self:GetEnemy()) && self.BLBOH_Michael_Hunt_Patience < CurTime() && !self.BLBOH_Michael_Hunt_LostPatient then
+
 			-- michael's bored of this hunt and goes away for now
-			self.BHLCIE_Michael_Hunt_LostPatient = true
+			self.BLBOH_Michael_Hunt_LostPatient = true
 			self:Michael_Flee()
+
 		end
+
 		if self:GetEnemy() != nil && self:GetPos():Distance(self:GetEnemy():GetPos()) <= 150 then
+
 			if math.random(1,10) == 1 then
-		-- VJ.EmitSound(self,"vj_blboh/shepherd/bullet_hit_target.mp3",70,100)
-				self.BHLCIE_Michael_Hunt_Patience = self.BHLCIE_Michael_Hunt_Patience + math.random(1,3)
+
+				self.BLBOH_Michael_Hunt_Patience = self.BLBOH_Michael_Hunt_Patience + math.random(1,3)
+
 			end
+
 		end
+
 	end
 
-	if self.BHLCIE_Michael_CurrentMode == 1 then -- we're fleeing
+	if self.BLBOH_Michael_CurrentMode == 1 then -- we're fleeing
+
 		if self:GetEnemy() != nil then -- check if we have a valid enemy
+
 			local enemydist = self:GetPos():Distance(self:GetEnemy():GetPos()) -- distance check
-			if !self:Visible(self:GetEnemy()) && enemydist >= 250 or !(self:GetEnemy():GetForward():Dot((self:GetPos() -self:GetEnemy():GetPos()):GetNormalized()) > math.cos(math.rad(60))) then
+
 			-- if we can't see our current enemy and they're far enough..
+			if !self:Visible(self:GetEnemy()) && enemydist >= 250 or !(self:GetEnemy():GetForward():Dot((self:GetPos() -self:GetEnemy():GetPos()):GetNormalized()) > math.cos(math.rad(60))) then
+
 				-- go into hiding
 				self:BLBOH_Michael_GoIntoHiding()
+
 			end
+
 		end
+
+		-- i think we can replace this if with an else
 		if self:GetEnemy() == nil then -- if we have no valid enemy then..
+
 			self:BLBOH_Michael_GoIntoHiding()
+
 		end
+
 	end
 
-	if self.BHLCIE_Michael_CurrentMode == 2 then -- we're hiding
-		if self.BHLCIE_Michael_HideTime < CurTime() then -- if our hide time check hits 0 then..
+	if self.BLBOH_Michael_CurrentMode == 2 then -- we're hiding
+
+		if self.BLBOH_Michael_HideTime < CurTime() then -- if our hide time check hits 0 then..
+
 			if IsValid(self:GetEnemy()) then -- if we have a valid enemy..
+
 				local enemydist = self:GetPos():Distance(self:GetEnemy():GetPos()) -- distance check
+
 				local myCenterPos = self:GetPos() + self:OBBCenter()
+
 				local tr1 = util.TraceLine({
 					start = myCenterPos,
 					endpos = myCenterPos + self:GetForward()*40,
 					filter = self
 				})
+
 				local tr2 = util.TraceLine({
 					start = myCenterPos,
 					endpos = myCenterPos + self:GetForward()*-40,
 					filter = self
 				})
+
 				local tr3 = util.TraceLine({
 					start = myCenterPos,
 					endpos = myCenterPos + self:GetRight()*40,
 					filter = self
 				})
+
 				local tr4 = util.TraceLine({
 					start = myCenterPos,
 					endpos = myCenterPos + self:GetRight()*-40,
 					filter = self
 				})
+
 				if
-					self:GetEnemy() != nil -- another valid enemy check?
-						&&
-					(
-						!self:Visible(self:GetEnemy())
-							or
-						enemydist >= 500
-							or
-						!(self:GetEnemy():GetForward():Dot((self:GetPos() -self:GetEnemy():GetPos()):GetNormalized()) > math.cos(math.rad(60)))
-					)
-					-- can't see them, they're far enough, or they're not looking at us
-						&&
-					!tr1.Hit
-					&&
-					!tr2.Hit
-					&&
-					!tr3.Hit
-					&&
-					!tr4.Hit
-					-- check to make sure we're not inside anything
+					-- we have a valid enemy
+					self:GetEnemy() != nil &&
+					-- we can't see the enemy OR they're farther than 500 units and not looking at us
+					(!self:Visible(self:GetEnemy()) or enemydist >= 500 && !(self:GetEnemy():GetForward():Dot((self:GetPos() - self:GetEnemy():GetPos()):GetNormalized()) > math.cos(math.rad(60)))) &&
+					-- tracer checks to make sure we're not inside anything
+					!tr1.Hit && !tr2.Hit && !tr3.Hit && !tr4.Hit
+
 				then
 
 					-- go on the hunt!
 
-					self.BHLCIE_Michael_CurrentMode = 0
-					self.BHLCIE_Michael_Hunt_Patience = CurTime() + math.random(60,90)
-					self.BHLCIE_Michael_Patience = CurTime() + math.random(5,10)
-					self.BHLCIE_Michael_Hunt_LostPatient = false
-					self.BHLCIE_Michael_LostPatient = false
-					self.BHLCIE_Michael_PlayedWarnSound = false
+					self.BLBOH_Michael_CurrentMode = 0
+					self.BLBOH_Michael_Hunt_Patience = CurTime() + math.random(60,90)
+					self.BLBOH_Michael_Search_Patience = CurTime() + math.random(5,10)
+					self.BLBOH_Michael_Hunt_LostPatient = false
+					self.BLBOH_Michael_Search_LostPatient = false
+					self.BLBOH_Michael_PlayedWarnSound = false
+
 					self.Behavior = VJ_BEHAVIOR_AGGRESSIVE
-					self.FindEnemy_CanSeeThroughWalls = false
 					self.SightAngle = 156
+					self.FindEnemy_CanSeeThroughWalls = false
 					self.GodMode = false
 					self:SetSolid(SOLID_BBOX)
-					self.HasFootStepSound = true
+					self:ResetEnemy(true)
+
+					self:SetRenderFX(0)
 					self:SetMaterial(nil)
 					self:DrawShadow(true)
-					self:SetRenderFX(0)
 					self:SetColor(Color(255, 255, 255, 255))
 					self:RemoveAllDecals()
-					self:ResetEnemy(true)
+
+					self.HasFootStepSound = true
+
 				end
+
 			else
+
 				-- we didn't meet the requirements, keep hiding
-				self.BHLCIE_Michael_HideTime = CurTime() + 3
+				self.BLBOH_Michael_HideTime = CurTime() + 3
+
 			end
+
 		end
+
 	end
+
 end
 --------------------
 function ENT:Michael_Flee()
 
+	-- add something so that if he does this from losing hunt patience then it's more clear that's the reason
+
 	-- flee!
+	self.BLBOH_Michael_CurrentMode = 1
+	self.BLBOH_Michael_Sprint = false
+
+	self.GodMode = true
+	self:SetHealth(self.StartHealth)
+
+	self.Behavior = VJ_BEHAVIOR_PASSIVE
+
+	self.SightAngle = 360
+	self.FindEnemy_CanSeeThroughWalls = true
+
+	self:SetSolid(SOLID_NONE)
+
+	self:SetMaterial("models/wireframe")
+	self:SetColor(Color(200, 200, 200, 200))
 	self:SetRenderFX(16)
+
 	VJ.EmitSound(self,self.SoundTbl_Flee,100,100)
+
 	self.HasBreathSound = false
 	VJ.STOPSOUND(self.CurrentBreathSound)
 
-	self:SetHealth(self.StartHealth)
-	self.GodMode = true
-	timer.Simple(0.15, function() if IsValid(self) then
+	timer.Simple(0.15, function() if IsValid(self) then -- not sure why this is here to be honest; might be a precaution?
+
 		self:SetHealth(self.StartHealth)
+
 	end end)
-	self.BHLCIE_Michael_TimesFendedOff = self.BHLCIE_Michael_TimesFendedOff - 0.15
-	self:SetHealth(self.StartHealth * self.BHLCIE_Michael_TimesFendedOff)
-
-	if self:Health() > 750 then
-		self:SetHealth(750)
-	end
-
-	-- PrintMessage(4,"DEBUG: Michael's health is now "..self:Health().."")
-
-	self.BHLCIE_Michael_CurrentMode = 1
-	self.BLBOH_Michael_Sprint = false
-	self.Behavior = VJ_BEHAVIOR_PASSIVE
-	self.SightAngle = 360
-	self:SetSolid(SOLID_NONE)
-
-	-- self:SetRenderFX(15)
-	local thefunny = Color(200, 200, 200, 200)
-	self:SetColor(thefunny)
-	self:SetMaterial("models/wireframe")
 
 end
 --------------------
 function ENT:OnDamaged(dmginfo, hitgroup, status)
 	if status == "PreDamage" then
-		if self.BHLCIE_Michael_CurrentMode == 0 then
-			self.BHLCIE_Michael_Hunt_Patience = self.BHLCIE_Michael_Hunt_Patience + math.random(1,3)
+		if self.BLBOH_Michael_CurrentMode == 0 then
+			self.BLBOH_Michael_Hunt_Patience = self.BLBOH_Michael_Hunt_Patience + math.random(1,3)
 		end
 		if (self:Health() - dmginfo:GetDamage()) <= 0 && self.Dead == false then -- if we take lethal damage then..
 			if self.BLBOH_Michael_Killable_FleesLeft > 0 or !self.BLBOH_Michael_Killable then -- might have to change this to a "is above 0" check
