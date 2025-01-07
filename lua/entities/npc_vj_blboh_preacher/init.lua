@@ -230,7 +230,7 @@ function ENT:BLBOH_Preacher_GivePortal()
 	self.MovementType = VJ_MOVETYPE_GROUND
 	self.CanTurnWhileStationary = true
 	self.HasSounds = true
-	-- self.HasBreathSound = true -- don't think we need this
+	self.HasBreathSound = true
 
 	self.PreacherPortalLight = ents.Create("light_dynamic")
 	self.PreacherPortalLight:SetKeyValue("brightness", "1")
