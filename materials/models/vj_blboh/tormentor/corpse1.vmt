@@ -1,0 +1,16 @@
+"VertexLitGeneric"
+{
+	"$baseTexture" "models/vj_blboh/tormentor/corpse1"
+	"$bumpmap" "models/vj_blboh/tormentor/corpse1_normal"
+	
+	"$phong" "1"
+	"$phongexponent" "12"
+	"$phongboost" "0.8"
+	"$phongfresnelranges"	"[0.1 0.7 1]"
+	
+	"$phongtint" "[0.4 0.2 0.1]"
+	
+	"$rimlight" "1"
+	"$rimlightboost" "1"
+	"$rimlightexponent" "6"
+}
