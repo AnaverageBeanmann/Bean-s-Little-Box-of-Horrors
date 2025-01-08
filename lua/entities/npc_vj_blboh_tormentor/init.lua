@@ -134,6 +134,7 @@ function ENT:Init()
 	util.ScreenShake(self:GetPos(), 5, 5, 5, 450)
 	self:SetSolid(SOLID_NONE)
 	self.HasMeleeAttack = false
+	self.HasRangeAttack = false
 	self.GodMode = true
 	self.MovementType = VJ_MOVETYPE_STATIONARY
 	self.CanTurnWhileStationary = false
@@ -201,6 +202,7 @@ function ENT:Init()
 		self:StopParticles()
 		self:SetSolid(SOLID_BBOX)
 		self.HasMeleeAttack = true
+		self.HasRangeAttack = true
 		self.GodMode = false
 		self.MovementType = VJ_MOVETYPE_GROUND
 		self.CanTurnWhileStationary = true
