@@ -41,7 +41,7 @@ if VJExists == true then
 
 	-- Special Guests, done by Warkin Iskander Volselli
 	VJ.AddNPC("Undead","npc_vj_blboh_undead",vCat) -- ombie
-	VJ.AddNPC("Tormenter","npc_vj_blboh_tormenter",vCat)
+	VJ.AddNPC("Tormenteo","npc_vj_blboh_tormentor",vCat)
 	VJ.AddNPC("Hollow","npc_vj_blboh_hollow",vCat)
 
 
