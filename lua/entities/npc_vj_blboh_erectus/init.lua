@@ -482,9 +482,9 @@ function ENT:OnThinkActive()
 		self.EyeSprite2:SetKeyValue("spawnflags","1") -- If animated
 		self.EyeSprite2:SetParent(self)
 		self.EyeSprite2:Fire("SetParentAttachment", "eyeglow2")
-		self.EyeSprite1:Spawn()
-		self.EyeSprite1:Activate()
-		self:DeleteOnRemove(self.EyeSprite1)
+		self.EyeSprite2:Spawn()
+		self.EyeSprite2:Activate()
+		self:DeleteOnRemove(self.EyeSprite2)
 
 		self.RageMouthLight = ents.Create("light_dynamic")
 		self.RageMouthLight:SetKeyValue("brightness", "3")
