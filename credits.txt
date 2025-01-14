@@ -1,0 +1,22 @@
+Credits
+- An average Beanmann: Main dev of this addon, creator of the majority of the NPCs in this pack, making spawnicons.
+- Warkin Iskander Volselli: Creator of all the NPCs in the Special Guests section, making the model for the Butcher, providing the Stalker's moving attack animations, providing the Horror's animations, foley sounds for The Follower, writing lore.
+- Smokey: Playtesting and feedback, name idea for the Deacon.
+- DrVrej: Creator of VJ Base.
+- Valve: Any and all Half-Life 2 and Left 4 Dead assets, Half-Life 2 Beta Stalker.
+- Stalker's behavior and some code for it was based on Crack-Life Resurgence's interpretation of Blackscary.
+- Darkborn: Follower's door breaking code (taken from Lethal Necrotics Reanimated).
+- Cide: Creator of Get a Life, which the Wretch and Preacher's models are from.
+- Dawson: Death model, used by Cultists.
+- Battlestate Games: EFT Cultist Knife.
+- We Create Stuff: Undead's model, body for Butcher's model.
+- Omi-Box: SF2 Rake texture (used as a base for The Chupacabra's texture)
+- Animations for the Undead are from No More Room In Hell and Call of Duty: WWII.
+- TeamPsykskallar: Taller animations, from Cry of Fear.
+- Preacher's spawn animations are from Call of Duty Zombies.
+- Vatra Games: Any and all assets relating to Silent Hill Downpour's Bogeyman.
+- Capcom: Leonard's footsteps, which are from the Resident Evil 2 Remake.
+- Airdorf Games: Any and all sounds from FAITH: The Unholy Trinity, source of ideas for the Cultist, Wretch, The Chupacabra, and The Shepherd.
+- Cutmanmike: Sounds from Ghouls Forest 3.
+- Sounds for the Undead are from They Hunger: Lost Souls.
+- LonelyAndLookin4Fun: Creator of Sabiru; sounds for the Wretch were taken from it.
