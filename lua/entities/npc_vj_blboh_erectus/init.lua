@@ -57,8 +57,7 @@ ENT.BLBOH_HasPortal = false
 --------------------
 function ENT:Init()
 
-	self:SetModelScale(2)
-	self:SetCollisionBounds(Vector(8, 8, 60), Vector(-8, -8, 0))
+	self:SetCollisionBounds(Vector(16, 16, 120), Vector(-16, -16, 0))
 
 	self.DisableFindEnemy = true
 	self.CanInvestigate = false
