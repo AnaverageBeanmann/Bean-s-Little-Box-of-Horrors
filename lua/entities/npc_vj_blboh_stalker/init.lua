@@ -223,7 +223,8 @@ end
 --------------------
 function ENT:OnDamaged(dmginfo, hitgroup, status)
 	if !self.BLBOH_Stalker_RenderShadow then
-		dmginfo:ScaleDamage(0.2) -- increase it?
+		-- dmginfo:ScaleDamage(0.2) -- increase it?
+		dmginfo:ScaleDamage(0.35)
 	end
 end
 --------------------

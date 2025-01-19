@@ -19,27 +19,27 @@ ENT.DisableFootStepSoundTimer = true
 --------------------
 ENT.HasDeathRagdoll = false
 --------------------
-ENT.BreathSoundLevel = 75
-ENT.AlertSoundLevel = 90
-ENT.PainSoundLevel = 90
-ENT.DeathSoundLevel = 90
---------------------
-ENT.GeneralSoundPitch1 = 100
-ENT.GeneralSoundPitch2 = 100
---------------------
+ENT.HasBreathSound = false
 ENT.SoundTbl_FootStep = {
 	"npc/fast_zombie/foot1.wav",
 	"npc/fast_zombie/foot2.wav",
 	"npc/fast_zombie/foot3.wav",
 	"npc/fast_zombie/foot4.wav"
 }
-ENT.SoundTbl_Breath = {"vj_blboh/horror/sjasact.wav"}
+ENT.SoundTbl_Breath = {"vj_blboh/horror/sjasact_quieter.wav"}
 ENT.SoundTbl_Alert = {"vj_blboh/horror/sjassee.wav"}
 ENT.SoundTbl_Pain = {"vj_blboh/horror/sjaspain.wav"}
 ENT.SoundTbl_Death = {"vj_blboh/horror/sjasdeat.wav"}
-ENT.HasBreathSound = false
---------------------
+-----
 ENT.NextSoundTime_Breath = VJ.SET(0.35,0.35)
+-----
+ENT.BreathSoundLevel = 75
+ENT.AlertSoundLevel = 90
+ENT.PainSoundLevel = 90
+ENT.DeathSoundLevel = 90
+-----
+ENT.GeneralSoundPitch1 = 100
+ENT.GeneralSoundPitch2 = 100
 --------------------
 ENT.BLBOH_Horror_FogT = 0
 ENT.BLBOH_Horror_Spawning = true

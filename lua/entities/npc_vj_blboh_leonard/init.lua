@@ -89,8 +89,8 @@ ENT.BLBOH_Follower_Spawning = true
 
 ENT.BLBOH_Follower_IsHidden = true
 ENT.BLBOH_Leonard_Sprint = false
-ENT.BLBOH_Michael_Killable = false
-ENT.BLBOH_Michael_Killable_FleesLeft = 2
+ENT.BLBOH_Leonard_Killable = false
+ENT.BLBOH_Leonard_Killable_FleesLeft = 2
 --------------------
 function ENT:PreInit()
 end
@@ -107,10 +107,14 @@ function ENT:Init()
 	timer.Simple(0.1,function() if IsValid(self) then
 			self:VJ_ACT_PLAYACTIVITY({"vjseq_extra"},"LetAttacks",5,false) -- rename this function and all other instances of it to PlayAnim
 	end end)
-	if GetConVar("vj_blboh_michael_killable"):GetInt() == 1 then
-		self.BLBOH_Michael_Killable = true
+	-- if GetConVar("vj_BLBOH_Leonard_Killable"):GetInt() == 1 then
+		-- self.BLBOH_Leonard_Killable = true
+	-- end
+	-- self.BLBOH_Leonard_Killable_FleesLeft = GetConVar("vj_BLBOH_Leonard_Killable_timesneedtofendoff"):GetInt()
+	if GetConVar("gamemode"):GetString() == "horde" then -- make sure he's killable in horde
+		self.BLBOH_Leonard_Killable = true
+		self.BLBOH_Leonard_Killable_FleesLeft = 0
 	end
-	self.BLBOH_Michael_Killable_FleesLeft = GetConVar("vj_blboh_michael_killable_timesneedtofendoff"):GetInt()
 end
 --------------------
 function ENT:BLBOH_Leonard_SpawnFog()
@@ -479,13 +483,13 @@ end
 function ENT:OnDamaged(dmginfo, hitgroup, status)
 	if status == "PreDamage" then
 		if (self:Health() - dmginfo:GetDamage()) <= 0 && self.Dead == false then -- if we take lethal damage then..
-			if self.BLBOH_Michael_Killable_FleesLeft > 0 or !self.BLBOH_Michael_Killable then -- might have to change this to a "is above 0" check
+			if self.BLBOH_Leonard_Killable_FleesLeft > 0 or !self.BLBOH_Leonard_Killable then -- might have to change this to a "is above 0" check
 				dmginfo:ScaleDamage(0) -- to avoid him actually dying
 				self.GodMode = true
 				self:VJ_ACT_PLAYACTIVITY({"vjseq_extra"},"LetAttacks",5,false) -- rename this function and all other instances of it to PlayAnim
 			end
-			if self.BLBOH_Michael_Killable then
-				self.BLBOH_Michael_Killable_FleesLeft = self.BLBOH_Michael_Killable_FleesLeft - 1
+			if self.BLBOH_Leonard_Killable then
+				self.BLBOH_Leonard_Killable_FleesLeft = self.BLBOH_Leonard_Killable_FleesLeft - 1
 			end
 		end
 	end

@@ -87,6 +87,11 @@ function ENT:Init()
 
 	self.BLBOH_Michael_Killable_FleesLeft = GetConVar("vj_blboh_michael_killable_timesneedtofendoff"):GetInt()
 
+	if GetConVar("gamemode"):GetString() == "horde" then -- make sure he's killable in horde
+		self.BLBOH_Michael_Killable = true
+		self.BLBOH_Michael_Killable_FleesLeft = 0
+	end
+
 end
 --------------------
 function ENT:OnInput(key, activator, caller, data)

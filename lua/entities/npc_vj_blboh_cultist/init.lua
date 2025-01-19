@@ -286,9 +286,11 @@ function ENT:RangeAttackProjVelocity(projectile)
 
 	-- return (self:GetEnemy():GetPos() - self:GetPos()) * 2.5 + self:GetUp() * math.random(100,150) + self:GetRight() * math.random(-0,0) + (self:GetEnemy():GetVelocity() * 1)
 
+	-- reduce the amount of prediction on this
 	local phys = projectile:GetPhysicsObject()
 	if IsValid(phys) && phys:IsGravityEnabled() then
-		return VJ.CalculateTrajectory(self, self:GetEnemy(), "Line", projectile:GetPos(), 0.5, 1000)
+		-- return VJ.CalculateTrajectory(self, self:GetEnemy(), "Line", projectile:GetPos(), 0.5, 1000)
+		return VJ.CalculateTrajectory(self, self:GetEnemy(), "Line", projectile:GetPos(), 0, 1000)
 	end
 
 end
