@@ -1,8 +1,0 @@
-ENT.Base 			= "npc_vj_creature_base"
-ENT.Type 			= "ai"
-ENT.PrintName 		= "Michael Davies"
-ENT.Author 			= "An average Beanmann"
-ENT.Contact 		= "http://steamcommunity.com/groups/vrejgaming"
-ENT.Purpose 		= "I HAVE THE BODY OF A PIG!"
-ENT.Instructions 	= "I GO UNWILLINGLY."
-ENT.Category		= "Bean's Half-Life Coop Infected Expansions"

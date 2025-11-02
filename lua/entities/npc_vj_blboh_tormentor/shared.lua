@@ -1,8 +1,0 @@
-ENT.Base 			= "npc_vj_creature_base"
-ENT.Type 			= "ai"
-ENT.PrintName 		= "Tormentor"
-ENT.Author 			= "Warkin Iskander Volselli"
-ENT.Contact 		= ""
-ENT.Purpose 		= "Your sins do not go unnoticed."
-ENT.Instructions 	= "This is all your fault."
-ENT.Category		= "Bean's Little Box of Horrors"

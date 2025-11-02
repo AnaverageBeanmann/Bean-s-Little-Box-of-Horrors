@@ -1,8 +1,0 @@
-ENT.Base 			= "npc_vj_creature_base"
-ENT.Type 			= "ai"
-ENT.PrintName 		= "Hollow"
-ENT.Author 			= "Warkin Iskander Volselli"
-ENT.Contact 		= ""
-ENT.Purpose 		= ""
-ENT.Instructions 	= ""
-ENT.Category		= "Bean's Little Box of Horrors"

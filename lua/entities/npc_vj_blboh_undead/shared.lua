@@ -1,8 +1,0 @@
-ENT.Base 			= "npc_vj_creature_base"
-ENT.Type 			= "ai"
-ENT.PrintName 		= "Undead"
-ENT.Author 			= "Warkin Iskander Volselli"
-ENT.Contact 		= ""
-ENT.Purpose 		= "A defiled corpse."
-ENT.Instructions 	= "Put it back underground."
-ENT.Category		= "Bean's Little Box of Horrors"

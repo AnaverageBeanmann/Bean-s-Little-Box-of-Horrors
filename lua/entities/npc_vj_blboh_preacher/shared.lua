@@ -1,8 +1,0 @@
-ENT.Base 			= "npc_vj_creature_base"
-ENT.Type 			= "ai"
-ENT.PrintName 		= "Preacher"
-ENT.Author 			= "An average Beanmann"
-ENT.Contact 		= "http://steamcommunity.com/groups/vrejgaming"
-ENT.Purpose 		= "SWEAR BY HIS THRONE."
-ENT.Instructions 	= "HELP ME BROTHER."
-ENT.Category		= "Bean's Half-Life Coop Infected Expansions"

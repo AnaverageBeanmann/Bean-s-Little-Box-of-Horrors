@@ -1,8 +1,0 @@
-ENT.Base 			= "npc_vj_creature_base"
-ENT.Type 			= "ai"
-ENT.PrintName 		= "The Follower"
-ENT.Author 			= "An average Beanmann"
-ENT.Contact 		= "http://steamcommunity.com/groups/vrejgaming"
-ENT.Purpose 		= "He follows."
-ENT.Instructions 	= "...yeah"
-ENT.Category		= "Bean's Half-Life Coop Infected Expansions"
