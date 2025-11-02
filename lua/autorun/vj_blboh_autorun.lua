@@ -19,11 +19,11 @@ if VJExists == true then
 
 	-- The New Blood
 	VJ.AddNPC("Forlorn","npc_vj_blboh_forlorn",vCat)
-	VJ.AddNPC("Semper","npc_vj_blboh_semper",vCat)
 	VJ.AddNPC("Crunatus","npc_vj_blboh_crunatus",vCat)
 	VJ.AddNPC("The Psycho","npc_vj_blboh_psycho",vCat)
 
 	-- Non-Canons
+	VJ.AddNPC("Semper","npc_vj_blboh_semper",vCat)
 	VJ.AddNPC("Heavy","npc_vj_blboh_heavy",vCat)
 
 	VJ.AddConVar("vj_blboh_spawn_sequences", 1, {FCVAR_ARCHIVE})
