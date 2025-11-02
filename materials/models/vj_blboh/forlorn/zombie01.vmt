@@ -1,0 +1,15 @@
+"VertexLitGeneric"
+{
+	
+	"$baseTexture"	"models/vj_blboh/forlorn/zombie01"
+	"$surfaceprop" "flesh"
+	"$selfillum" "1"
+	"$selfillummask" "models/vj_blboh/forlorn/zombie01_glow"
+	//"$bumpmap" "models/vj_blboh/forlorn/zombie_normal"
+
+	//"$normalmapalphaenvmapmask" 1
+
+	//"$envmaptint" "[.7 .7 .7 ]"
+
+	//"$envmap" "env_cubemap"
+}

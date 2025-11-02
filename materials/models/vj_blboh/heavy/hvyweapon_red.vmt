@@ -1,0 +1,46 @@
+"VertexLitGeneric"
+{
+	"$basetexture" "models/vj_blboh/heavy/hvyweapon_red"
+	"$bumpmap" "models/vj_blboh/heavy/hvyweapon_normal"
+
+	"$yellow" "0"
+	"$one" "1"
+
+	"$halflambert" "0"
+
+	// Rim lighting parameters
+	"$rimlight" "0"												// To enable rim lighting (requires phong)
+	"$rimlightexponent" "4"										// Exponent for phong component of rim lighting	
+	"$rimlightboost" "2"										// Boost for ambient cube component of rim lighting
+
+	"360?$color2" "[ 0.8 0.8 0.8 ]"
+	"$cloakPassEnabled" "1"
+	"Proxies"
+	{
+		"spy_invis" //wmodel and team color cloak support
+		{
+		}
+		"invis" //vmodel cloak support
+		{
+		}
+		"AnimatedTexture"
+		{
+			"animatedtexturevar" "$detail"
+			"animatedtextureframenumvar" "$detailframe"
+			"animatedtextureframerate" 30
+		}
+		"BurnLevel"
+		{
+			"resultVar" "$detailblendfactor"
+		}
+		"YellowLevel"
+		{
+			"resultVar" "$yellow"
+		}
+		"Equals"
+		{
+			"srcVar1" "$yellow"
+			"resultVar" "$color2"
+		}
+	}
+}

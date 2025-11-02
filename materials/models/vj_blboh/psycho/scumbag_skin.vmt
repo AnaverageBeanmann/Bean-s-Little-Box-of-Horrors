@@ -1,0 +1,13 @@
+"VertexLitGeneric"
+{
+    $basetexture 				"models\vj_blboh\psycho\scumbag_skin_d"
+    $bumpmap 				"models\vj_blboh\psycho\scumbag_skin_n"
+	$nocull						"1"
+	$phong						"1"
+	$phongboost					"7"
+	$phongexponent				"10"
+	$phongalbedotint			"1"
+	$phongdisablehalflambert	"1"
+	$halflambert				"1"
+	$basemapalphaphongmask 		"1"
+}

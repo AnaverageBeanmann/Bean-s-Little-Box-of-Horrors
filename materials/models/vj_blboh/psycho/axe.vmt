@@ -1,0 +1,6 @@
+"VertexLitGeneric"
+{
+    "$baseTexture" "models/vj_blboh/psycho/axe"
+    "$envmap" "env_cubemap"
+    "$envmapmask" "models/vj_blboh/psycho/axe_ref"
+}
