@@ -1,0 +1,7 @@
+ENT.Base 			= "npc_vj_human_base"
+ENT.Type 			= "ai"
+ENT.PrintName 		= "Crunatus"
+ENT.Author 			= "An average Beanmann"
+ENT.Contact 		= ""
+ENT.Information 	= "Allan please add details.\n"
+ENT.Category		= "Bean's Little Box of Horrors"

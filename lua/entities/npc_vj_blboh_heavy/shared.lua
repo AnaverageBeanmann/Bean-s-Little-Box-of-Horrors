@@ -1,0 +1,7 @@
+ENT.Base 			= "npc_vj_creature_base"
+ENT.Type 			= "ai"
+ENT.PrintName 		= "Heavy"
+ENT.Author 			= "An average Beanmann"
+ENT.Contact 		= ""
+ENT.Information 	= "Rank: Pursuer.\nType: Game Entity.\n\nThe first threat you deal with in 'Capture the Intelligence'.\n\nHeavy has improved hearing compared to most VJ NPCs, so he'll be able to hear things from farther away.\nIf he finds you, he'll start a chase and sprint towards you.\nIf he manages to catch you, he'll jumpscare you, which is guaranteed death.\n"
+ENT.Category		= "Bean's Little Box of Horrors"

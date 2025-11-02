@@ -1,0 +1,7 @@
+ENT.Base 			= "npc_vj_creature_base"
+ENT.Type 			= "ai"
+ENT.PrintName 		= "Erectus"
+ENT.Author 			= "An average Beanmann"
+ENT.Contact 		= ""
+ENT.Information 	= "Rank: Demi.\nType: Voidling.\n\nA large skeletal being that's able to create miniature Voidplane gateways in its ribcage.\n\nWhen it has a gateway, it can drop it to summon a Forlorn or Horror near itself.\nIf it can't reach you, then it'll launch the gateway to your location.\nAttacks with a quick jab or a strong stomp that causes AoE damage.\nIf you're too far from it for too long, it'll start moving faster and won't stop until it does a melee attack.\nAt around half-health, it becomes +ENRAGED, gaining a permanent movement boost, faster gateway recharge time, and it will now only summon Horrors.\n\nWhen controlled by a Player, instead of moving faster when its target is too far for too long, the Player instead has a stamina meter they can spend to move faster.\nThe meter recharges when not sprinting, and drains/fills faster when +ENRAGED.\n"
+ENT.Category		= "Bean's Little Box of Horrors"

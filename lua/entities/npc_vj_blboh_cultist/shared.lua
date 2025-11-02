@@ -1,0 +1,7 @@
+ENT.Base 			= "npc_vj_creature_base"
+ENT.Type 			= "ai"
+ENT.PrintName 		= "Cultist"
+ENT.Author 			= "An average Beanmann"
+ENT.Contact 		= ""
+ENT.Information 	= "Rank: Fodder.\nType: Demonoid, Cultist.\n\nHumanoid beings from The Underworld who slowly started making up the bulk of The Cult after stable gateways between Earth and The Underworld were created.\n\nMainly attacks by throwing knives at you from a short distance, or attacking at melee with slashes and stabs.\nStabs do more damage and are guaranteed to cause bleeding.\nIf they can't reach you, they'll start using an alternate throw attack with longer range but worse tracking.\nSetting them on fire will essentially incapacitate them, as they'll be too busy flailing around to focus on you.\nThey also take more damage from the fire itself, so they'll likely die from it after a few seconds.\n"
+ENT.Category		= "Bean's Little Box of Horrors"

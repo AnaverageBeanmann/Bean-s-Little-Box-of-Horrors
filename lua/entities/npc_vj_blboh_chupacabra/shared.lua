@@ -1,0 +1,7 @@
+ENT.Base 			= "npc_vj_creature_base"
+ENT.Type 			= "ai"
+ENT.PrintName 		= "Chupacabra"
+ENT.Author 			= "An average Beanmann"
+ENT.Contact 		= ""
+ENT.Information 	= "Rank: Aberrant.\nType: Possessed.\n\nOriginally a one-off case of human possession, the spirit survived the host body being destroyed and echoed, splitting itself so it can possess more bodies at once.\n\nIt announces itself when it spots a target, so make sure you quickly find it afterwards before it gets too close.\nSmall size, speedy movement, and being able to move while attacking makes this a particularly deadly foe if you don't keep moving.\nWhen you deplete its health, it goes into hiding for a bit before returning to attack again later.\nYou have to fend it off a certain amount of times before the body properly dies.\n"
+ENT.Category		= "Bean's Little Box of Horrors"

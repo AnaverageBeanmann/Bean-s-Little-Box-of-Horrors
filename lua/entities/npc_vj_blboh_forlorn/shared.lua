@@ -1,0 +1,7 @@
+ENT.Base 			= "npc_vj_creature_base"
+ENT.Type 			= "ai"
+ENT.PrintName 		= "Forlorn"
+ENT.Author 			= "An average Beanmann"
+ENT.Contact 		= ""
+ENT.Information 	= "Rank: Fodder.\nType: Voidling.\n\nMain inhabitants of The Voidplane, left to forever wander without a goal or purpose.\n\nSlow and rather easy to avoid; more like an obstacle than an active threat.\nVery low health, but everything only does 1 point of damage to it.\n"
+ENT.Category		= "Bean's Little Box of Horrors"

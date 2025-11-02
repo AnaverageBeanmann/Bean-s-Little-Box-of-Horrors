@@ -1,0 +1,7 @@
+ENT.Base 			= "npc_vj_creature_base"
+ENT.Type 			= "ai"
+ENT.PrintName 		= "Wretch"
+ENT.Author 			= "An average Beanmann"
+ENT.Contact 		= ""
+ENT.Information 	= "Rank: Fodder.\nType: Demonoid, Warped.\n\nArtificially-created demonic entity made from a ritual that transforms corpses into these.\nTreated like animals by The Cult.\n\nAttacks with various jabs using its legs.\nIf you're aiming at one, it can try to scuttle to the side to throw your aim off.\nSometimes when it's hurt, it'll burrow underground for a bit.\nWhen burrowed, it can't be hurt and slowly regains health, but it can't attack.\n"
+ENT.Category		= "Bean's Little Box of Horrors"

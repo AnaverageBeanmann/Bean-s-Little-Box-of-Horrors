@@ -1,0 +1,7 @@
+ENT.Base 			= "npc_vj_creature_base"
+ENT.Type 			= "ai"
+ENT.PrintName 		= "Preacher"
+ENT.Author 			= "An average Beanmann"
+ENT.Contact 		= ""
+ENT.Information 	= "Rank: Demi.\nType: Possessed, Conduit.\n\nDesecrated corpse of a holy man, corrupted and controlled by demonic energy.\n\nHas full 360 degree vision and doesn't need to face his target to attack.\nMainly attacks by flingling orbs of flaming hellnergy that predict movement and appear without warning.\nHe can also push you away if you're too close and can summon a lingering burst of flame where you're standing.\n\nPlayers controlling him are able to teleport short distances every couple seconds.\n"
+ENT.Category		= "Bean's Little Box of Horrors"

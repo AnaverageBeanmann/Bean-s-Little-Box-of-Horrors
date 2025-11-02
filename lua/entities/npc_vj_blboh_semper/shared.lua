@@ -1,0 +1,7 @@
+ENT.Base 			= "npc_vj_creature_base"
+ENT.Type 			= "ai"
+ENT.PrintName 		= "Semper"
+ENT.Author 			= "An average Beanmann"
+ENT.Contact 		= ""
+ENT.Information 	= "Rank: Demi.\nType: Corruptus.\n\nA being of pure corruptive energy that exists within game space.\n\nNearby props will be affected by the corruptive aura, with many possible effects.\nIt has a melee attack, projectile attack, and it can instantly appear directly infront of you if it wishes.\nIts true health is obscured, so health bars or similar methods won't be of use.\n"
+ENT.Category		= "Bean's Little Box of Horrors"

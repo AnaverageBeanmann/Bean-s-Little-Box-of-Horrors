@@ -1,0 +1,7 @@
+ENT.Base 			= "npc_vj_creature_base"
+ENT.Type 			= "ai"
+ENT.PrintName 		= "Horror"
+ENT.Author 			= "An average Beanmann"
+ENT.Contact 		= ""
+ENT.Information 	= "Rank: Fodder.\nType: Voidling.\n\nStrange being from The Voidplane; practically nothing else is known about it.\n\nCan't be seen from a distance, but the constant yells give away where it is.\nIt only collides with the world, so it can just run through everything blocking it.\nWhen it attacks, it'll do AoE damage to any enemies nearby and blind nearby players for a short duration, but the attack also kills it.\n\nPlayers controlling it can swap between Attack and Hide states.\nHiding leaves the Horror invisible and invulnerable, but it cannot attack.\nSwitching to the Attack state reveals the Horror and allows the controller to attack after a second.\nAttacking while controlling a Horror will send it to the Hide state instead of killing it.\n"
+ENT.Category		= "Bean's Little Box of Horrors"

@@ -1,0 +1,7 @@
+ENT.Base 			= "npc_vj_creature_base"
+ENT.Type 			= "ai"
+ENT.PrintName 		= "Stalker"
+ENT.Author 			= "An average Beanmann"
+ENT.Contact 		= ""
+ENT.Information 	= "Rank: Aberrant.\nType: Demonoid.\n\nA hunter from The Underworld who doesn't like when its prey is watching it.\n\nWhen the Stalker's current enemy is looking at it, it will go incorporeal.\nWhen their current enemy STOPS looking at it, it becomes corporeal again.\nWhile incorporeal, the Stalker:\n- Is invisible\n- Can only be hurt by AoE damage (like explosives)\n- Takes reduced damage from everything\n- Can walk through props and other objects\n- Is ignored by other NPCs\n- Is forced to walk instead of run\n\nPlayer-controlled Stalkers cannot attack while invisible.\n"
+ENT.Category		= "Bean's Little Box of Horrors"
