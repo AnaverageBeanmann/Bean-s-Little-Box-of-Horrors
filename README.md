@@ -1,4 +1,4 @@
-Welcome to BLBOH's Github page.
+Welcome to BLBOH's GitHub page.
 This comprises of everything from the Stable/Main Build and the In-Dev Build.
 
 Credits are found on the workshop page for the Main/Stable Build.
